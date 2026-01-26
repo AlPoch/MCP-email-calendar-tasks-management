@@ -1,0 +1,39 @@
+{
+    "name": "email-calendar-mcp-server",
+    "version": "1.0.0",
+    "description": "MCP Server for Email and Calendar integration",
+    "type": "module",
+    "main": "build/index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "node build/index.js",
+        "dev": "ts-node src/index.ts",
+        "watch": "tsc --watch",
+        "test:email": "node build/scripts/test-email.js",
+        "test:calendar": "node build/scripts/test-calendar-verify.js",
+        "test:calendar:create": "node build/scripts/test-calendar-create.js",
+        "test:find:email": "node build/scripts/test-find-email.js",
+        "get-token": "npm run build && node build/scripts/get-google-token.js"
+    },
+    "dependencies": {
+        "@modelcontextprotocol/sdk": "^1.25.3",
+        "@types/server-destroy": "^1.0.4",
+        "dotenv": "^16.4.5",
+        "express": "^4.18.2",
+        "googleapis": "^126.0.1",
+        "imap-simple": "^5.1.0",
+        "mailparser": "^3.9.1",
+        "nodemailer": "^6.9.9",
+        "server-destroy": "^1.0.1",
+        "zod": "^3.22.4"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/imap-simple": "^4.2.5",
+        "@types/mailparser": "^3.4.6",
+        "@types/node": "^20.11.19",
+        "@types/nodemailer": "^6.4.14",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
+    }
+}
