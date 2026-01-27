@@ -31,13 +31,18 @@ export class CalendarService {
         this.auth.setCredentials(tokens);
     }
 
-    async listEvents(timeMin?: string, timeMax?: string): Promise<calendar_v3.Schema$Event[]> {
+    async listCalendars(): Promise<calendar_v3.Schema$CalendarListEntry[]> {
+        const res = await this.calendar.calendarList.list();
+        return res.data.items || [];
+    }
+
+    async listEvents(timeMin?: string, timeMax?: string, calendarId: string = 'primary'): Promise<calendar_v3.Schema$Event[]> {
         // Default to next 7 days if no range provided
         const min = timeMin || new Date().toISOString();
         const max = timeMax || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
         const res = await this.calendar.events.list({
-            calendarId: 'primary',
+            calendarId,
             timeMin: min,
             timeMax: max,
             singleEvents: true,
@@ -47,44 +52,81 @@ export class CalendarService {
         return res.data.items || [];
     }
 
-    async createEvent(summary: string, startTime: string, endTime: string, description?: string): Promise<calendar_v3.Schema$Event> {
-        const event = {
+    async createEvent(
+        summary: string,
+        startTime: string,
+        endTime: string,
+        description?: string,
+        attendees?: string[],
+        reminders?: number[]
+    ): Promise<calendar_v3.Schema$Event> {
+        const event: calendar_v3.Schema$Event = {
             summary,
             description,
             start: { dateTime: startTime },
             end: { dateTime: endTime },
         };
 
+        if (attendees && attendees.length > 0) {
+            event.attendees = attendees.map(email => ({ email }));
+        }
+
+        if (reminders && reminders.length > 0) {
+            event.reminders = {
+                useDefault: false,
+                overrides: reminders.map(minutes => ({ method: 'popup', minutes }))
+            };
+        }
+
         const res = await this.calendar.events.insert({
             calendarId: 'primary',
             requestBody: event,
+            sendUpdates: 'all', // Send invitations to attendees
         });
 
         return res.data;
     }
 
-    async updateEvent(eventId: string, updates: { summary?: string, description?: string, start?: string, end?: string }): Promise<calendar_v3.Schema$Event> {
-        // First get the event to merge? Or just patch
-        // patch is better for partial updates
+    async updateEvent(eventId: string, updates: {
+        summary?: string,
+        description?: string,
+        start?: string,
+        end?: string,
+        attendees?: string[],
+        reminders?: number[]
+    }, calendarId: string = 'primary'): Promise<calendar_v3.Schema$Event> {
         const patchBody: any = {};
         if (updates.summary) patchBody.summary = updates.summary;
         if (updates.description) patchBody.description = updates.description;
         if (updates.start) patchBody.start = { dateTime: updates.start };
         if (updates.end) patchBody.end = { dateTime: updates.end };
 
+        if (updates.attendees) {
+            patchBody.attendees = updates.attendees.map(email => ({ email }));
+        }
+
+        if (updates.reminders) {
+            patchBody.reminders = {
+                useDefault: false,
+                overrides: updates.reminders.map(minutes => ({ method: 'popup', minutes }))
+            };
+        }
+
         const res = await this.calendar.events.patch({
-            calendarId: 'primary',
+            calendarId,
             eventId: eventId,
             requestBody: patchBody,
+            sendUpdates: 'all',
         });
 
         return res.data;
     }
 
-    async deleteEvent(eventId: string): Promise<void> {
+    async deleteEvent(eventId: string, calendarId: string = 'primary'): Promise<void> {
         await this.calendar.events.delete({
-            calendarId: 'primary',
+            calendarId,
             eventId: eventId,
+            sendUpdates: 'all',
         });
     }
 }

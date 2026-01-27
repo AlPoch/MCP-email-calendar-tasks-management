@@ -8,17 +8,19 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
         {
             timeMin: z.string().optional().describe('Start time in ISO format (default: now)'),
             timeMax: z.string().optional().describe('End time in ISO format (default: 7 days from now)'),
+            calendarId: z.string().optional().describe('Calendar ID to fetch from (default: primary)'),
         },
-        async ({ timeMin, timeMax }: { timeMin?: string; timeMax?: string }) => {
+        async ({ timeMin, timeMax, calendarId }: { timeMin?: string; timeMax?: string; calendarId?: string }) => {
             try {
-                const events = await calendarService.listEvents(timeMin, timeMax);
+                const events = await calendarService.listEvents(timeMin, timeMax, calendarId);
                 // Simplify output
                 const simplified = events.map(e => ({
                     id: e.id,
                     summary: e.summary,
                     start: e.start?.dateTime || e.start?.date,
                     end: e.end?.dateTime || e.end?.date,
-                    status: e.status
+                    status: e.status,
+                    attendees: e.attendees?.map(a => a.email)
                 }));
                 return {
                     content: [{ type: 'text', text: JSON.stringify(simplified, null, 2) }],
@@ -33,16 +35,49 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
     );
 
     server.tool(
+        'calendar_get_list',
+        {},
+        async () => {
+            try {
+                const calendars = await calendarService.listCalendars();
+                const simplified = calendars.map(c => ({
+                    id: c.id,
+                    summary: c.summary,
+                    description: c.description,
+                    accessRole: c.accessRole
+                }));
+                return {
+                    content: [{ type: 'text', text: JSON.stringify(simplified, null, 2) }],
+                };
+            } catch (error) {
+                return {
+                    content: [{ type: 'text', text: `Error listing calendars: ${error}` }],
+                    isError: true,
+                };
+            }
+        }
+    );
+
+    server.tool(
         'calendar_create',
         {
             summary: z.string().describe('Event title'),
             startTime: z.string().describe('Start time in ISO format'),
             endTime: z.string().describe('End time in ISO format'),
             description: z.string().optional().describe('Event description'),
+            attendees: z.array(z.string()).optional().describe('List of email addresses to invite'),
+            reminders: z.array(z.number()).optional().describe('Minutes before event for reminders (e.g. [15, 60])'),
         },
-        async ({ summary, startTime, endTime, description }: { summary: string; startTime: string; endTime: string; description?: string }) => {
+        async ({ summary, startTime, endTime, description, attendees, reminders }: {
+            summary: string;
+            startTime: string;
+            endTime: string;
+            description?: string;
+            attendees?: string[];
+            reminders?: number[];
+        }) => {
             try {
-                const event = await calendarService.createEvent(summary, startTime, endTime, description);
+                const event = await calendarService.createEvent(summary, startTime, endTime, description, attendees, reminders);
                 return {
                     content: [{ type: 'text', text: `Event created: ${event.htmlLink}` }],
                 };
