@@ -21,9 +21,14 @@ export const config = {
         moveTargetFolder: process.env.GMX_MOVE_TARGET_FOLDER || 'GPTAussortiert',
     },
     google: {
-        clientId: process.env.GOOGLE_CLIENT_ID || '',
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-        redirectUri: process.env.GOOGLE_REDIRECT_URI || '',
-        refreshToken: process.env.GOOGLE_REFRESH_TOKEN || '',
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        redirectUri: process.env.GOOGLE_REDIRECT_URI,
+        refreshToken: process.env.GOOGLE_REFRESH_TOKEN,
+    },
+    serverAuth: {
+        clientId: process.env.MCP_CLIENT_ID || 'mcp-client',
+        clientSecret: process.env.MCP_CLIENT_SECRET || 'mcp-secret',
+        staticToken: process.env.MCP_STATIC_TOKEN || 'mcp-static-token-123',
     }
 };
