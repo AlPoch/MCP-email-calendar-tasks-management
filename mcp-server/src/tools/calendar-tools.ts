@@ -65,19 +65,21 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
             startTime: z.string().describe('Start time in ISO format'),
             endTime: z.string().describe('End time in ISO format'),
             description: z.string().optional().describe('Event description'),
+            location: z.string().optional().describe('Event location'),
             attendees: z.array(z.string()).optional().describe('List of email addresses to invite'),
             reminders: z.array(z.number()).optional().describe('Minutes before event for reminders (e.g. [15, 60])'),
         },
-        async ({ summary, startTime, endTime, description, attendees, reminders }: {
+        async ({ summary, startTime, endTime, description, attendees, reminders, location }: {
             summary: string;
             startTime: string;
             endTime: string;
             description?: string;
             attendees?: string[];
             reminders?: number[];
+            location?: string;
         }) => {
             try {
-                const event = await calendarService.createEvent(summary, startTime, endTime, description, attendees, reminders);
+                const event = await calendarService.createEvent(summary, startTime, endTime, description, attendees, reminders, location);
                 return {
                     content: [{ type: 'text', text: `Event created: ${event.htmlLink}` }],
                 };
@@ -96,12 +98,13 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
             eventId: z.string().describe('ID of the event to update'),
             summary: z.string().optional(),
             description: z.string().optional(),
+            location: z.string().optional(),
             startTime: z.string().optional(),
             endTime: z.string().optional(),
         },
-        async ({ eventId, summary, description, startTime, endTime }: { eventId: string; summary?: string; description?: string; startTime?: string; endTime?: string }) => {
+        async ({ eventId, summary, description, location, startTime, endTime }: { eventId: string; summary?: string; description?: string; location?: string; startTime?: string; endTime?: string }) => {
             try {
-                const event = await calendarService.updateEvent(eventId, { summary, description, start: startTime, end: endTime });
+                const event = await calendarService.updateEvent(eventId, { summary, description, location, start: startTime, end: endTime });
                 return {
                     content: [{ type: 'text', text: `Event updated: ${event.htmlLink}` }],
                 };

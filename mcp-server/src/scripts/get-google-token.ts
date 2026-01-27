@@ -17,7 +17,10 @@ const oauth2Client = new google.auth.OAuth2(
     config.google.redirectUri || 'http://localhost:3000/oauth2callback'
 );
 
-const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+const SCOPES = [
+    'https://www.googleapis.com/auth/calendar',
+    'https://www.googleapis.com/auth/tasks'
+];
 
 async function getAccessToken(oAuth2Client: OAuth2Client) {
     return new Promise((resolve, reject) => {

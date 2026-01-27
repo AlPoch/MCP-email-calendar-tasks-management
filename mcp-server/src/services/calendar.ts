@@ -58,11 +58,13 @@ export class CalendarService {
         endTime: string,
         description?: string,
         attendees?: string[],
-        reminders?: number[]
+        reminders?: number[],
+        location?: string
     ): Promise<calendar_v3.Schema$Event> {
         const event: calendar_v3.Schema$Event = {
             summary,
             description,
+            location,
             start: { dateTime: startTime },
             end: { dateTime: endTime },
         };
@@ -90,6 +92,7 @@ export class CalendarService {
     async updateEvent(eventId: string, updates: {
         summary?: string,
         description?: string,
+        location?: string,
         start?: string,
         end?: string,
         attendees?: string[],
@@ -98,6 +101,7 @@ export class CalendarService {
         const patchBody: any = {};
         if (updates.summary) patchBody.summary = updates.summary;
         if (updates.description) patchBody.description = updates.description;
+        if (updates.location) patchBody.location = updates.location;
         if (updates.start) patchBody.start = { dateTime: updates.start };
         if (updates.end) patchBody.end = { dateTime: updates.end };
 

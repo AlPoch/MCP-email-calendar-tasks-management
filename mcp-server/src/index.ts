@@ -25,6 +25,12 @@ import { registerCalendarTools } from './tools/calendar-tools.js';
 const calendarService = new CalendarService();
 registerCalendarTools(server, calendarService);
 
+import { TasksService } from './services/tasks.js';
+import { registerTasksTools } from './tools/tasks-tools.js';
+
+const tasksService = new TasksService();
+registerTasksTools(server, tasksService);
+
 
 server.tool(
     'ping',
