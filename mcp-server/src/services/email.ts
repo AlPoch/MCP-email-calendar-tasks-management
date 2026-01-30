@@ -40,11 +40,18 @@ export class EmailService {
         return await imaps.connect(connectionConfig);
     }
 
-    async listEmails(limit: number = 10, criteria: any[] = ['ALL']): Promise<EmailMessage[]> {
+    async listEmails(limit: number = 10, search?: string): Promise<EmailMessage[]> {
         const connection = await this.getImapConnection();
         try {
             await connection.openBox('INBOX');
-            const searchCriteria = criteria;
+
+            // Build search criteria
+            let searchCriteria: any[] = ['ALL'];
+            if (search) {
+                // Search in Subject, From, or Body
+                searchCriteria = [['OR', ['SUBJECT', search], ['OR', ['FROM', search], ['BODY', search]]]];
+            }
+
             const fetchOptions = {
                 bodies: ['HEADER'],
                 markSeen: false,
@@ -54,7 +61,6 @@ export class EmailService {
             const messages = await connection.search(searchCriteria, fetchOptions);
 
             // Sort by Date (newest first) and take limit
-            // Note: imap-simple returns simple objects
             const sorted = messages.sort((a, b) => {
                 const dateA = new Date(a.attributes.date);
                 const dateB = new Date(b.attributes.date);
@@ -62,7 +68,7 @@ export class EmailService {
             }).slice(0, limit);
 
             return sorted.map(msg => ({
-                id: msg.seqNo, // Fixed: seqno -> seqNo
+                id: msg.seqNo,
                 uid: msg.attributes.uid,
                 subject: msg.parts[0].body.subject ? msg.parts[0].body.subject[0] : '(No Subject)',
                 from: msg.parts[0].body.from ? msg.parts[0].body.from[0] : 'Unknown',
@@ -88,13 +94,8 @@ export class EmailService {
                 throw new Error('Email not found');
             }
 
-            // The raw body is in the first part when requesting bodies: ['']
-            // imap-simple structure for bodies: [''] is typically parts[0].body
             const rawSource = messages[0].parts[0].body;
-            
             const parsed = await simpleParser(rawSource);
-            
-            // Return text if available, otherwise html, otherwise fallback
             return parsed.text || parsed.html || '(No Content)';
         } catch (error) {
             console.error('Error parsing email:', error);
@@ -108,12 +109,6 @@ export class EmailService {
         const connection = await this.getImapConnection();
         try {
             await connection.openBox('INBOX');
-            // Use the underlying node-imap method to support UIDs
-            // 'connection.imap' gives access to the raw node-imap instance
-            // addFlags(source, flags, callback) - we need to wrap it or use a promise
-            // Or use imap-simple's addFlags but pass the sequence number.
-
-            // Search first to get the sequence number
             const results = await connection.search([['UID', uid]], { bodies: ['HEADER'] });
             if (results.length > 0) {
                 await connection.addFlags(results[0].attributes.uid, '\\Deleted');
@@ -121,6 +116,15 @@ export class EmailService {
         } finally {
             connection.end();
         }
+    }
+
+    async sendEmail(to: string, subject: string, body: string): Promise<void> {
+        await this.smtpTransport.sendMail({
+            from: config.gmx.user,
+            to: to,
+            subject: subject,
+            text: body,
+        });
     }
 
     async sendReply(to: string, subject: string, body: string): Promise<void> {

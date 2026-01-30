@@ -59,14 +59,33 @@ export function registerTasksTools(server: McpServer, tasksService: TasksService
         {
             title: z.string().describe('Task title'),
             notes: z.string().optional().describe('Task notes/description'),
-            due: z.string().optional().describe('Due date in RFC 3339 format (e.g. 2026-01-27T12:00:00Z)'),
+            dueDay: z.string().optional().describe('Due day in YYYY-MM-DD format'),
+            dueTime: z.string().optional().describe('Due time in HH:mm format'),
+            recurrence: z.string().optional().describe('Recurrence rule (e.g., "Daily", "Every Monday")'),
             taskListId: z.string().optional().describe('ID of the task list (default: @default)'),
         },
-        async ({ title, notes, due, taskListId }: { title: string; notes?: string; due?: string; taskListId?: string }) => {
+        async ({ title, notes, dueDay, dueTime, recurrence, taskListId }: {
+            title: string;
+            notes?: string;
+            dueDay?: string;
+            dueTime?: string;
+            recurrence?: string;
+            taskListId?: string
+        }) => {
             try {
-                const task = await tasksService.createTask(taskListId, title, notes, due);
+                let due: string | undefined = undefined;
+                if (dueDay) {
+                    due = `${dueDay}T${dueTime || '12:00'}:00Z`;
+                }
+
+                let finalNotes = notes || '';
+                if (recurrence) {
+                    finalNotes = `${finalNotes}\n\n[RECURRENCE: ${recurrence}]`.trim();
+                }
+
+                const task = await tasksService.createTask(taskListId, title, finalNotes, due);
                 return {
-                    content: [{ type: 'text', text: `Task created: ${task.title} (ID: ${task.id})` }],
+                    content: [{ type: 'text', text: `Task created: ${task.title} (ID: ${task.id}). Note: Google Tasks API may only show the date part of the due time.` }],
                 };
             } catch (error) {
                 return {
@@ -85,11 +104,32 @@ export function registerTasksTools(server: McpServer, tasksService: TasksService
             title: z.string().optional(),
             notes: z.string().optional(),
             status: z.enum(['needsAction', 'completed']).optional(),
-            due: z.string().optional(),
+            dueDay: z.string().optional().describe('Due day in YYYY-MM-DD format'),
+            dueTime: z.string().optional().describe('Due time in HH:mm format'),
+            recurrence: z.string().optional().describe('Recurrence rule'),
         },
-        async ({ taskId, taskListId, title, notes, status, due }: { taskId: string; taskListId?: string; title?: string; notes?: string; status?: 'needsAction' | 'completed'; due?: string }) => {
+        async ({ taskId, taskListId, title, notes, status, dueDay, dueTime, recurrence }: {
+            taskId: string;
+            taskListId?: string;
+            title?: string;
+            notes?: string;
+            status?: 'needsAction' | 'completed';
+            dueDay?: string;
+            dueTime?: string;
+            recurrence?: string
+        }) => {
             try {
-                const task = await tasksService.updateTask(taskListId, taskId, { title, notes, status, due });
+                let due: string | undefined = undefined;
+                if (dueDay) {
+                    due = `${dueDay}T${dueTime || '12:00'}:00Z`;
+                }
+
+                let finalNotes = notes;
+                if (recurrence) {
+                    finalNotes = `${notes || ''}\n\n[RECURRENCE: ${recurrence}]`.trim();
+                }
+
+                const task = await tasksService.updateTask(taskListId, taskId, { title, notes: finalNotes, status, due });
                 return {
                     content: [{ type: 'text', text: `Task updated: ${task.title}` }],
                 };

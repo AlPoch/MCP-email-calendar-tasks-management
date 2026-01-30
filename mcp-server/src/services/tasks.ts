@@ -42,7 +42,7 @@ export class TasksService {
             requestBody: {
                 title,
                 notes,
-                due
+                due: due // RFC 3339 timestamp
             }
         });
         return res.data;

@@ -8,16 +8,39 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
         'email_list',
         {
             limit: z.number().optional().describe('Number of emails to fetch (default: 10)'),
+            search: z.string().optional().describe('Search term for Subject, From, or Body'),
         },
-        async ({ limit = 10 }: { limit?: number }) => {
+        async ({ limit = 10, search }: { limit?: number, search?: string }) => {
             try {
-                const emails = await emailService.listEmails(limit);
+                const emails = await emailService.listEmails(limit, search);
                 return {
                     content: [{ type: 'text', text: JSON.stringify(emails, null, 2) }],
                 };
             } catch (error) {
                 return {
                     content: [{ type: 'text', text: `Error listing emails: ${error}` }],
+                    isError: true,
+                };
+            }
+        }
+    );
+
+    server.tool(
+        'email_send',
+        {
+            to: z.string().describe('Recipient email address'),
+            subject: z.string().describe('Subject of the email'),
+            body: z.string().describe('Body content of the email'),
+        },
+        async ({ to, subject, body }: { to: string; subject: string; body: string }) => {
+            try {
+                await emailService.sendEmail(to, subject, body);
+                return {
+                    content: [{ type: 'text', text: `Email sent to ${to}` }],
+                };
+            } catch (error) {
+                return {
+                    content: [{ type: 'text', text: `Error sending email: ${error}` }],
                     isError: true,
                 };
             }

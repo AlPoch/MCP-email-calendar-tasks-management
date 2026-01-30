@@ -68,8 +68,9 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
             location: z.string().optional().describe('Event location'),
             attendees: z.array(z.string()).optional().describe('List of email addresses to invite'),
             reminders: z.array(z.number()).optional().describe('Minutes before event for reminders (e.g. [15, 60])'),
+            recurrence: z.array(z.string()).optional().describe('Recurrence rules (e.g. ["RRULE:FREQ=DAILY;COUNT=10"])'),
         },
-        async ({ summary, startTime, endTime, description, attendees, reminders, location }: {
+        async ({ summary, startTime, endTime, description, attendees, reminders, location, recurrence }: {
             summary: string;
             startTime: string;
             endTime: string;
@@ -77,9 +78,10 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
             attendees?: string[];
             reminders?: number[];
             location?: string;
+            recurrence?: string[];
         }) => {
             try {
-                const event = await calendarService.createEvent(summary, startTime, endTime, description, attendees, reminders, location);
+                const event = await calendarService.createEvent(summary, startTime, endTime, description, attendees, reminders, location, recurrence);
                 return {
                     content: [{ type: 'text', text: `Event created: ${event.htmlLink}` }],
                 };
@@ -101,10 +103,19 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
             location: z.string().optional(),
             startTime: z.string().optional(),
             endTime: z.string().optional(),
+            recurrence: z.array(z.string()).optional().describe('Recurrence rules'),
         },
-        async ({ eventId, summary, description, location, startTime, endTime }: { eventId: string; summary?: string; description?: string; location?: string; startTime?: string; endTime?: string }) => {
+        async ({ eventId, summary, description, location, startTime, endTime, recurrence }: {
+            eventId: string;
+            summary?: string;
+            description?: string;
+            location?: string;
+            startTime?: string;
+            endTime?: string;
+            recurrence?: string[];
+        }) => {
             try {
-                const event = await calendarService.updateEvent(eventId, { summary, description, location, start: startTime, end: endTime });
+                const event = await calendarService.updateEvent(eventId, { summary, description, location, start: startTime, end: endTime, recurrence });
                 return {
                     content: [{ type: 'text', text: `Event updated: ${event.htmlLink}` }],
                 };

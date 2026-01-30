@@ -59,7 +59,8 @@ export class CalendarService {
         description?: string,
         attendees?: string[],
         reminders?: number[],
-        location?: string
+        location?: string,
+        recurrence?: string[]
     ): Promise<calendar_v3.Schema$Event> {
         const event: calendar_v3.Schema$Event = {
             summary,
@@ -67,6 +68,7 @@ export class CalendarService {
             location,
             start: { dateTime: startTime },
             end: { dateTime: endTime },
+            recurrence: recurrence,
         };
 
         if (attendees && attendees.length > 0) {
@@ -96,7 +98,8 @@ export class CalendarService {
         start?: string,
         end?: string,
         attendees?: string[],
-        reminders?: number[]
+        reminders?: number[],
+        recurrence?: string[]
     }, calendarId: string = 'primary'): Promise<calendar_v3.Schema$Event> {
         const patchBody: any = {};
         if (updates.summary) patchBody.summary = updates.summary;
@@ -104,6 +107,7 @@ export class CalendarService {
         if (updates.location) patchBody.location = updates.location;
         if (updates.start) patchBody.start = { dateTime: updates.start };
         if (updates.end) patchBody.end = { dateTime: updates.end };
+        if (updates.recurrence) patchBody.recurrence = updates.recurrence;
 
         if (updates.attendees) {
             patchBody.attendees = updates.attendees.map(email => ({ email }));

@@ -20,7 +20,7 @@ app.use(cors());
 // --- MCP SERVER ---
 const server = new McpServer({
     name: 'email-calendar-tasks-mcp',
-    version: '1.0.6',
+    version: '1.0.7',
 });
 
 // Import and register all tools
@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
         mcp: 'active',
         sessions: transports.size,
         time: new Date().toISOString(),
-        version: '1.0.6'
+        version: '1.0.7'
     });
 });
 
@@ -175,7 +175,7 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 // Final Binding
 const port = Number(config.port) || 3000;
 app.listen(port, '0.0.0.0', () => {
-    console.log(`\n--- MCP SERVER v1.0.6 READY ---`);
+    console.log(`\n--- MCP SERVER v1.0.7 READY ---`);
     console.log(`Internal: http://0.0.0.0:${port}`);
     console.log(`External: https://unpalsied-shirlene-onward.ngrok-free.dev/sse`);
     console.log(`-------------------------------\n`);
