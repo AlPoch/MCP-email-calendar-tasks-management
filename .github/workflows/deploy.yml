@@ -40,14 +40,15 @@ jobs:
         run: npm run build
 
       # ---------- Package release ----------
-      - name: Create release bundle
-        run: |
-          set -e
-          rm -f release.tgz
-          tar -czf release.tgz \
-            .next public package.json package-lock.json next.config.ts tsconfig.json src \
-            mcp-server/build mcp-server/package.json mcp-server/package-lock.json mcp-server/src mcp-server/tsconfig.json \
-            mcp-server/.env
+        - name: Create release bundle
+  run: |
+    set -e
+    tar -czf release.tgz \
+      .next public package.json package-lock.json next.config.ts \
+      node_modules \
+      mcp-server/build mcp-server/package.json mcp-server/package-lock.json \
+      mcp-server/node_modules
+
 
       # ---------- Deploy via SSH ----------
       - name: Deploy to OCI
