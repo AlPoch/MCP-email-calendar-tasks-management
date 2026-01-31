@@ -6,40 +6,74 @@ async function main() {
     const calendarService = new CalendarService();
     const emailService = new EmailService();
     const targetEmail = 'pochivalov@gmx.de';
-    const subject = 'Termine für heute';
+    const subject = 'Termine für diesen Monat';
 
-    console.log(`--- Starting Full Workflow Test ---`);
+    console.log(`--- Starting Full Workflow Test (Monthly) ---`);
     console.log(`Target: ${targetEmail}`);
 
-    // 1. Fetch today's appointments (2026-01-31)
-    console.log('Step 1: Fetching today\'s appointments...');
-    const todayStart = '2026-01-31T00:00:00Z';
-    const todayEnd = '2026-01-31T23:59:59Z';
+    // 1. Fetch Monthly Date Range (February 2026)
+    console.log('Step 1: Setting up monthly date range...');
+    const todayStart = '2026-02-01T00:00:00Z';
+    const todayEnd = '2026-02-28T23:59:59Z';
 
-    let appointments;
+    // 2. List All Calendars
+    console.log('Step 1: Listing all available calendars...');
+    let calendars;
     try {
-        appointments = await calendarService.listEvents(todayStart, todayEnd);
-        console.log(`Found ${appointments.length} appointments.`);
+        calendars = await calendarService.listCalendars();
+        console.log(`Found ${calendars.length} calendars.`);
     } catch (error) {
-        console.error('Failed to fetch appointments:', error);
+        console.error('Failed to list calendars:', error);
         return;
     }
 
-    // 2. Format HTML Body
-    console.log('Step 2: Formatting email body...');
-    let htmlBody = '<h3>Deine Termine für heute:</h3><ul>';
-    if (appointments.length === 0) {
-        htmlBody += '<li>Keine Termine für heute gefunden.</li>';
+    // 3. Fetch Appointments from Every Calendar
+    console.log('Step 2: Fetching appointments from all calendars...');
+    let allAppointments: { summary: string, time: string, calendarName: string, isPrimary: boolean }[] = [];
+
+    for (const cal of calendars) {
+        try {
+            const calId = cal.id || 'primary';
+            const calName = cal.summary || calId;
+            const isPrimary = cal.primary || false;
+
+            console.log(`Checking calendar: ${calName} (${calId})...`);
+            const events = await calendarService.listEvents(todayStart, todayEnd, calId);
+
+            events.forEach(event => {
+                const time = event.start?.dateTime || event.start?.date || '';
+                allAppointments.push({
+                    summary: event.summary || '(Kein Titel)',
+                    time: time,
+                    calendarName: calName,
+                    isPrimary: isPrimary
+                });
+            });
+        } catch (error) {
+            console.warn(`Could not fetch events for calendar ${cal.summary}:`, error);
+        }
+    }
+    console.log(`Total appointments found across all calendars: ${allAppointments.length}`);
+
+    // 4. Format HTML Body
+    console.log('Step 3: Formatting email body...');
+    let htmlBody = '<h3>Deine Termine für diesen Monat:</h3><ul>';
+
+    if (allAppointments.length === 0) {
+        htmlBody += '<li>Keine Termine für diesen Monat gefunden.</li>';
     } else {
-        appointments.forEach(app => {
-            const time = app.start?.dateTime || app.start?.date;
-            htmlBody += `<li><b>${app.summary}</b> - ${time}</li>`;
+        // Sort appointments by time (optional but better)
+        allAppointments.sort((a, b) => a.time.localeCompare(b.time));
+
+        allAppointments.forEach(app => {
+            const prefix = app.isPrimary ? '' : `(${app.calendarName}): `;
+            htmlBody += `<li>${prefix}<b>${app.summary}</b> - ${app.time}</li>`;
         });
     }
     htmlBody += '</ul>';
 
-    // 3. Send Email
-    console.log('Step 3: Sending email...');
+    // 5. Send Email
+    console.log('Step 4: Sending email...');
     try {
         await emailService.sendEmail(targetEmail, subject, htmlBody);
         console.log('Email sent successfully.');
@@ -48,8 +82,8 @@ async function main() {
         return;
     }
 
-    // 4. Polling for receipt
-    console.log('Step 4: Polling for email receipt (every 10s, max 3m)...');
+    // 6. Polling for receipt
+    console.log('Step 5: Polling for email receipt (every 10s, max 3m)...');
     const startPolling = Date.now();
     const timeout = 3 * 60 * 1000; // 3 minutes
     const interval = 10 * 1000;   // 10 seconds
@@ -71,9 +105,9 @@ async function main() {
         await new Promise(resolve => setTimeout(resolve, interval));
     }
 
-    // 5. Report Results
+    // 7. Report Results
     if (foundEmail) {
-        console.log('\n--- Email Content ---');
+        console.log('\n--- Email Content (as seen in inbox) ---');
         try {
             const content = await emailService.getEmailContent(foundEmail.uid);
             console.log('Subject:', foundEmail.subject);

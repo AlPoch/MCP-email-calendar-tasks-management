@@ -137,4 +137,27 @@ export class CalendarService {
             sendUpdates: 'all',
         });
     }
+
+    async listAllEvents(timeMin?: string, timeMax?: string): Promise<{ event: calendar_v3.Schema$Event, calendarName: string, isPrimary: boolean }[]> {
+        const calendars = await this.listCalendars();
+        const allEvents: { event: calendar_v3.Schema$Event, calendarName: string, isPrimary: boolean }[] = [];
+
+        for (const cal of calendars) {
+            try {
+                const calId = cal.id || 'primary';
+                const events = await this.listEvents(timeMin, timeMax, calId);
+                events.forEach(e => {
+                    allEvents.push({
+                        event: e,
+                        calendarName: cal.summary || calId,
+                        isPrimary: cal.primary || false
+                    });
+                });
+            } catch (err) {
+                console.warn(`Could not list events for calendar ${cal.summary}:`, err);
+            }
+        }
+
+        return allEvents;
+    }
 }

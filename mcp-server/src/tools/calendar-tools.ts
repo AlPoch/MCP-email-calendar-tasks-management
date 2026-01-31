@@ -12,19 +12,39 @@ export function registerCalendarTools(server: McpServer, calendarService: Calend
         },
         async ({ timeMin, timeMax, calendarId }: { timeMin?: string; timeMax?: string; calendarId?: string }) => {
             try {
-                const events = await calendarService.listEvents(timeMin, timeMax, calendarId);
-                // Simplify output
-                const simplified = events.map(e => ({
-                    id: e.id,
-                    summary: e.summary,
-                    start: e.start?.dateTime || e.start?.date,
-                    end: e.end?.dateTime || e.end?.date,
-                    status: e.status,
-                    attendees: e.attendees?.map(a => a.email)
-                }));
-                return {
-                    content: [{ type: 'text', text: JSON.stringify(simplified, null, 2) }],
-                };
+                if (calendarId) {
+                    const events = await calendarService.listEvents(timeMin, timeMax, calendarId);
+                    const simplified = events.map(e => ({
+                        id: e.id,
+                        summary: e.summary,
+                        start: e.start?.dateTime || e.start?.date,
+                        end: e.end?.dateTime || e.end?.date,
+                        status: e.status,
+                        attendees: e.attendees?.map(a => a.email)
+                    }));
+                    return {
+                        content: [{ type: 'text', text: JSON.stringify(simplified, null, 2) }],
+                    };
+                } else {
+                    const allEvents = await calendarService.listAllEvents(timeMin, timeMax);
+                    const simplified = allEvents.map(item => ({
+                        id: item.event.id,
+                        summary: item.isPrimary ? item.event.summary : `(${item.calendarName}): ${item.event.summary}`,
+                        start: item.event.start?.dateTime || item.event.start?.date,
+                        end: item.event.end?.dateTime || item.event.end?.date,
+                        status: item.event.status,
+                        attendees: item.event.attendees?.map(a => a.email)
+                    }));
+                    // Sort by start time
+                    simplified.sort((a, b) => {
+                        const startA = a.start ? new Date(a.start).getTime() : 0;
+                        const startB = b.start ? new Date(b.start).getTime() : 0;
+                        return startA - startB;
+                    });
+                    return {
+                        content: [{ type: 'text', text: JSON.stringify(simplified, null, 2) }],
+                    };
+                }
             } catch (error) {
                 return {
                     content: [{ type: 'text', text: `Error listing events: ${error}` }],
