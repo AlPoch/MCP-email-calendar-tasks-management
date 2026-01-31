@@ -11,14 +11,37 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 export const config = {
     port: process.env.PORT || 3000,
-    gmx: {
-        user: process.env.GMX_USER || '',
-        password: process.env.GMX_PASSWORD || '',
-        imapHost: process.env.GMX_IMAP_HOST || 'imap.gmx.net',
-        imapPort: parseInt(process.env.GMX_IMAP_PORT || '993'),
-        smtpHost: process.env.GMX_SMTP_HOST || 'mail.gmx.net',
-        smtpPort: parseInt(process.env.GMX_SMTP_PORT || '587'),
-        moveTargetFolder: process.env.GMX_MOVE_TARGET_FOLDER || 'GPTAussortiert',
+    email: {
+        accounts: [
+            {
+                name: process.env.GMX_1_NAME || 'GMX_Haupt',
+                user: process.env.GMX_USER || '',
+                password: process.env.GMX_PASSWORD || '',
+                imapHost: 'imap.gmx.net',
+                imapPort: 993,
+                smtpHost: 'mail.gmx.net',
+                smtpPort: 587,
+            },
+            {
+                name: process.env.GMX_2_NAME || 'GMX_Privat',
+                user: process.env.GMX_2_USER || '',
+                password: process.env.GMX_2_PASSWORD || '',
+                imapHost: 'imap.gmx.net',
+                imapPort: 993,
+                smtpHost: 'mail.gmx.net',
+                smtpPort: 587,
+            },
+            {
+                name: process.env.GOOGLE_EMAIL_NAME || 'Google_Work',
+                user: process.env.GOOGLE_EMAIL_USER || '',
+                password: process.env.GOOGLE_EMAIL_PASSWORD || '',
+                imapHost: 'imap.gmail.com',
+                imapPort: 993,
+                smtpHost: 'smtp.gmail.com',
+                smtpPort: 465, // Gmail SMTP usually 465 or 587
+            }
+        ],
+        moveTargetFolder: process.env.EMAIL_UNEMPOTANT_ORDER || 'GPTAussortiert',
     },
     google: {
         clientId: process.env.GOOGLE_CLIENT_ID,

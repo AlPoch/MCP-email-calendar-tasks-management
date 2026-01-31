@@ -24,7 +24,7 @@ async function main() {
         console.log(`UID: ${email.uid}`);
 
         console.log('\n--- Content ---');
-        const content = await service.getEmailContent(email.uid);
+        const content = await service.getEmailContent(email.uid, email.account);
         console.log(content);
         console.log('--- End of Content ---');
 

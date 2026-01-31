@@ -31,12 +31,14 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
             to: z.string().describe('Recipient email address'),
             subject: z.string().describe('Subject of the email'),
             body: z.string().describe('Body content of the email'),
+            account: z.string().optional().describe('Account name to send from (default: first account)'),
         },
-        async ({ to, subject, body }: { to: string; subject: string; body: string }) => {
+        async ({ to, subject, body, account }: { to: string; subject: string; body: string, account?: string }) => {
             try {
-                await emailService.sendEmail(to, subject, body);
+                const accountName = account || config.email.accounts[0].name;
+                await emailService.sendEmail(to, subject, body, accountName);
                 return {
-                    content: [{ type: 'text', text: `Email sent to ${to}` }],
+                    content: [{ type: 'text', text: `Email sent to ${to} from ${accountName}` }],
                 };
             } catch (error) {
                 return {
@@ -51,10 +53,11 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
         'email_read',
         {
             uid: z.number().describe('The UID of the email to read'),
+            account: z.string().describe('The account name where the email exists'),
         },
-        async ({ uid }: { uid: number }) => {
+        async ({ uid, account }: { uid: number, account: string }) => {
             try {
-                const content = await emailService.getEmailContent(uid);
+                const content = await emailService.getEmailContent(uid, account);
                 return {
                     content: [{ type: 'text', text: content }],
                 };
@@ -71,12 +74,13 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
         'email_delete',
         {
             uid: z.number().describe('The UID of the email to delete'),
+            account: z.string().describe('The account name where the email exists'),
         },
-        async ({ uid }: { uid: number }) => {
+        async ({ uid, account }: { uid: number, account: string }) => {
             try {
-                await emailService.deleteEmail(uid);
+                await emailService.deleteEmail(uid, account);
                 return {
-                    content: [{ type: 'text', text: `Email ${uid} deleted successfully` }],
+                    content: [{ type: 'text', text: `Email ${uid} deleted successfully from ${account}` }],
                 };
             } catch (error) {
                 return {
@@ -93,12 +97,13 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
             to: z.string().describe('Recipient email address'),
             subject: z.string().describe('Subject of the email'),
             body: z.string().describe('Body content of the reply'),
+            account: z.string().describe('The account name to reply from (must match original email)'),
         },
-        async ({ to, subject, body }: { to: string; subject: string; body: string }) => {
+        async ({ to, subject, body, account }: { to: string; subject: string; body: string, account: string }) => {
             try {
-                await emailService.sendReply(to, subject, body);
+                await emailService.sendReply(to, subject, body, account);
                 return {
-                    content: [{ type: 'text', text: `Reply sent to ${to}` }],
+                    content: [{ type: 'text', text: `Reply sent to ${to} from ${account}` }],
                 };
             } catch (error) {
                 return {
@@ -111,10 +116,13 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
 
     server.tool(
         'email_list_folders',
-        {},
-        async () => {
+        {
+            account: z.string().optional().describe('Account name to list folders for (default: first account)'),
+        },
+        async ({ account }: { account?: string }) => {
             try {
-                const folders = await emailService.listFolders();
+                const accountName = account || config.email.accounts[0].name;
+                const folders = await emailService.listFolders(accountName);
                 return {
                     content: [{ type: 'text', text: JSON.stringify(folders, null, 2) }]
                 };
@@ -130,13 +138,14 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
     server.tool(
         'email_move',
         {
-            uid: z.number().describe('UID of the email to move to ' + config.gmx.moveTargetFolder),
+            uid: z.number().describe('UID of the email to move'),
+            account: z.string().describe('The account name where the email exists'),
         },
-        async ({ uid }: { uid: number }) => {
+        async ({ uid, account }: { uid: number, account: string }) => {
             try {
-                await emailService.moveEmailToSafeFolder(uid);
+                await emailService.moveEmailToSafeFolder(uid, account);
                 return {
-                    content: [{ type: 'text', text: `Email ${uid} moved to ${config.gmx.moveTargetFolder}` }]
+                    content: [{ type: 'text', text: `Email ${uid} moved to ${config.email.moveTargetFolder} in ${account}` }]
                 };
             } catch (error) {
                 return {

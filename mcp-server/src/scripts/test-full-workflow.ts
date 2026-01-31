@@ -75,7 +75,7 @@ async function main() {
     // 5. Send Email
     console.log('Step 4: Sending email...');
     try {
-        await emailService.sendEmail(targetEmail, subject, htmlBody);
+        await emailService.sendEmail(targetEmail, subject, htmlBody, config.email.accounts[0].name);
         console.log('Email sent successfully.');
     } catch (error) {
         console.error('Failed to send email:', error);
@@ -109,9 +109,10 @@ async function main() {
     if (foundEmail) {
         console.log('\n--- Email Content (as seen in inbox) ---');
         try {
-            const content = await emailService.getEmailContent(foundEmail.uid);
+            const content = await emailService.getEmailContent(foundEmail.uid, foundEmail.account);
             console.log('Subject:', foundEmail.subject);
             console.log('From:', foundEmail.from);
+            console.log('Account:', foundEmail.account);
             console.log('Content:\n', content);
         } catch (error) {
             console.error('Could not read email content:', error);

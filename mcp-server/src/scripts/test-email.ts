@@ -21,7 +21,7 @@ async function main() {
         console.log(`Subject: ${lastEmail.subject}`);
 
         console.log('\n--- Fetching Full Content ---');
-        const content = await service.getEmailContent(lastEmail.uid);
+        const content = await service.getEmailContent(lastEmail.uid, lastEmail.account);
         console.log('Content Snippet (first 200 chars):');
         console.log(content.substring(0, 200) + (content.length > 200 ? '...' : ''));
 
