@@ -2,12 +2,17 @@ name: Build & Deploy to OCI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch: {}
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: true
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -18,9 +23,12 @@ jobs:
         with:
           node-version: "20"
           cache: "npm"
+          cache-dependency-path: |
+            package-lock.json
+            mcp-server/package-lock.json
 
       # ---------- Frontend ----------
-      - name: Install frontend deps
+      - name: Install frontend deps (full)
         run: npm ci --no-audit --no-fund
 
       - name: Build frontend (Next.js)
@@ -28,8 +36,14 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=2048"
         run: npm run build
 
+      # Replace node_modules with production-only deps (so server won't need npm ci)
+      - name: Install frontend deps (prod only)
+        run: |
+          rm -rf node_modules
+          npm ci --omit=dev --no-audit --no-fund
+
       # ---------- Backend ----------
-      - name: Install backend deps
+      - name: Install backend deps (full)
         working-directory: mcp-server
         run: npm ci --no-audit --no-fund
 
@@ -39,19 +53,26 @@ jobs:
           NODE_OPTIONS: "--max-old-space-size=2048"
         run: npm run build
 
-      # ---------- Package release ----------
-        - name: Create release bundle
-  run: |
-    set -e
-    tar -czf release.tgz \
-      .next public package.json package-lock.json next.config.ts \
-      node_modules \
-      mcp-server/build mcp-server/package.json mcp-server/package-lock.json \
-      mcp-server/node_modules
+      # Replace backend node_modules with production-only deps
+      - name: Install backend deps (prod only)
+        working-directory: mcp-server
+        run: |
+          rm -rf node_modules
+          npm ci --omit=dev --no-audit --no-fund
 
+      # ---------- Package release artifact ----------
+      - name: Create release bundle
+        run: |
+          set -e
+          rm -f release.tgz
+          tar -czf release.tgz \
+            .next public package.json package-lock.json next.config.ts \
+            node_modules \
+            mcp-server/build mcp-server/package.json mcp-server/package-lock.json \
+            mcp-server/node_modules
 
-      # ---------- Deploy via SSH ----------
-      - name: Deploy to OCI
+      # ---------- Upload bundle to server ----------
+      - name: Copy release.tgz to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -61,7 +82,8 @@ jobs:
           source: "release.tgz"
           target: "/home/${{ secrets.DEPLOY_USER }}/"
 
-      - name: Activate release & restart backend
+      # ---------- Activate release on server ----------
+      - name: Activate release & restart backend (no ngrok restart)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -70,18 +92,42 @@ jobs:
           port: ${{ secrets.DEPLOY_PORT || 22 }}
           script: |
             set -euo pipefail
-            TS=$(date +%Y%m%d-%H%M%S)
-            RELEASE_DIR="$HOME/apps/releases/$TS"
-            mkdir -p "$RELEASE_DIR"
-            tar -xzf "$HOME/release.tgz" -C "$RELEASE_DIR"
-            ln -sfn "$RELEASE_DIR" "$HOME/apps/MCP-email-calendar-tasks-management-current"
 
-            # Ensure scripts see the "current" path if you use it
-            # Optional: update your mcp script BASE_DIR to point to ...-current
+            BASE="$HOME/apps"
+            RELEASES="$BASE/releases"
+            CURRENT="$BASE/MCP-email-calendar-tasks-management-current"
+            SHARED_ENV="$BASE/shared/mcp-server.env"
 
-            # Restart backend only (do NOT touch ngrok)
-            if command -v mcp >/dev/null 2>&1; then
-              mcp backend-restart || true
+            mkdir -p "$RELEASES"
+            TS="$(date +%Y%m%d-%H%M%S)"
+            DIR="$RELEASES/$TS"
+            mkdir -p "$DIR"
+
+            tar -xzf "$HOME/release.tgz" -C "$DIR"
+
+            # Restore secrets from server (recommended)
+            if [ -f "$SHARED_ENV" ]; then
+              mkdir -p "$DIR/mcp-server"
+              cp "$SHARED_ENV" "$DIR/mcp-server/.env"
+              chmod 600 "$DIR/mcp-server/.env"
+            else
+              echo "WARNING: shared env not found: $SHARED_ENV"
+              echo "Create it on the server, иначе backend может не стартовать."
             fi
 
-            echo "Deployed to: $RELEASE_DIR"
+            ln -sfn "$DIR" "$CURRENT"
+
+            # Keep last 5 releases, delete older ones (optional cleanup)
+            ls -1dt "$RELEASES"/* 2>/dev/null | tail -n +6 | xargs -r rm -rf
+
+            # Restart backend only, with BASE_DIR override to ensure it runs from CURRENT
+            if [ -x "$HOME/bin/mcp" ]; then
+              BASE_DIR="$CURRENT" "$HOME/bin/mcp" backend-restart || true
+            elif command -v mcp >/dev/null 2>&1; then
+              BASE_DIR="$CURRENT" mcp backend-restart || true
+            else
+              echo "WARNING: mcp script not found. Skipping restart."
+            fi
+
+            echo "Deployed release: $DIR"
+            echo "Current points to: $(readlink -f "$CURRENT" || true)"
