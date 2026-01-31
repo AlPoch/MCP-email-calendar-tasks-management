@@ -1,0 +1,86 @@
+name: Build & Deploy to OCI
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch: {}
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # ---------- Frontend ----------
+      - name: Install frontend deps
+        run: npm ci --no-audit --no-fund
+
+      - name: Build frontend (Next.js)
+        env:
+          NODE_OPTIONS: "--max-old-space-size=2048"
+        run: npm run build
+
+      # ---------- Backend ----------
+      - name: Install backend deps
+        working-directory: mcp-server
+        run: npm ci --no-audit --no-fund
+
+      - name: Build backend (tsc)
+        working-directory: mcp-server
+        env:
+          NODE_OPTIONS: "--max-old-space-size=2048"
+        run: npm run build
+
+      # ---------- Package release ----------
+      - name: Create release bundle
+        run: |
+          set -e
+          rm -f release.tgz
+          tar -czf release.tgz \
+            .next public package.json package-lock.json next.config.ts tsconfig.json src \
+            mcp-server/build mcp-server/package.json mcp-server/package-lock.json mcp-server/src mcp-server/tsconfig.json \
+            mcp-server/.env
+
+      # ---------- Deploy via SSH ----------
+      - name: Deploy to OCI
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          source: "release.tgz"
+          target: "/home/${{ secrets.DEPLOY_USER }}/"
+
+      - name: Activate release & restart backend
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          script: |
+            set -euo pipefail
+            TS=$(date +%Y%m%d-%H%M%S)
+            RELEASE_DIR="$HOME/apps/releases/$TS"
+            mkdir -p "$RELEASE_DIR"
+            tar -xzf "$HOME/release.tgz" -C "$RELEASE_DIR"
+            ln -sfn "$RELEASE_DIR" "$HOME/apps/MCP-email-calendar-tasks-management-current"
+
+            # Ensure scripts see the "current" path if you use it
+            # Optional: update your mcp script BASE_DIR to point to ...-current
+
+            # Restart backend only (do NOT touch ngrok)
+            if command -v mcp >/dev/null 2>&1; then
+              mcp backend-restart || true
+            fi
+
+            echo "Deployed to: $RELEASE_DIR"
