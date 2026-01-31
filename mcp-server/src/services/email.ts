@@ -119,20 +119,22 @@ export class EmailService {
     }
 
     async sendEmail(to: string, subject: string, body: string): Promise<void> {
+        const isHtml = /<[a-z][\s\S]*>/i.test(body);
         await this.smtpTransport.sendMail({
             from: config.gmx.user,
             to: to,
             subject: subject,
-            text: body,
+            [isHtml ? 'html' : 'text']: body,
         });
     }
 
     async sendReply(to: string, subject: string, body: string): Promise<void> {
+        const isHtml = /<[a-z][\s\S]*>/i.test(body);
         await this.smtpTransport.sendMail({
             from: config.gmx.user,
             to: to,
             subject: subject.startsWith('Re:') ? subject : `Re: ${subject}`,
-            text: body,
+            [isHtml ? 'html' : 'text']: body,
         });
     }
 
