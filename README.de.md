@@ -63,7 +63,14 @@ Vollständige Synchronisation mit **Google Calendar** und **Google Tasks**:
    ```
 
 ## 💎 Warum das Ganze?
-Anstatt zwischen E-Mail-Tabs, Kalendern und Aufgabenplanern hin und her zu wechseln, interagieren Sie mit allem in einem einzigen Fenster. Sie können sagen: *"Finde die E-Mail von Alex über den Vertrag, plane einen Termin für Donnerstag und setze 'Champagner kaufen' auf meine Einkaufsliste"*. Dieses Projekt erledigt den Rest!
+Anstatt zwischen E-Mail-Tabs, Kalendern und Aufgabenplanern hin und her zu wechseln, interagieren Sie mit allem in einem einzigen Fenster. Sie können die KI bitten, eine komplexe Folge von Aktionen mit einer einzigen Nachricht auszuführen.
+
+### Anwendungsbeispiel:
+**Ihre Anfrage an die KI:**
+> *"Suche einen freien Termin am 24. Februar gegen 14:00 Uhr. Erstelle ein Kalenderereignis um 13:45 Uhr mit dem Titel 'Business-Lunch mit Partnern'. Lade alex.iv@gmail.com und maria.s@mail.ru ein. Lege als Ort das Restaurant 'Central Park' in der Puschkinstraße 15 fest (suche die genauen Koordinaten). Und füge zwei Erinnerungen hinzu: 2 Tage und 2 Stunden vor Beginn."*
+
+**Ergebnis:**
+Die KI findet die Adresse, prüft Ihren Terminkalender, erstellt das Ereignis in Google Calendar, versendet Einladungen an die Teilnehmer und richtet die Benachrichtigungen ein. Das alles geschieht in Sekundenschnelle!
 
 ---
 Entwickelt mit ❤️ zur Automatisierung Ihrer Produktivität.

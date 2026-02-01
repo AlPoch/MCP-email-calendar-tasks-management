@@ -63,7 +63,14 @@ Full synchronization with **Google Calendar** and **Google Tasks**:
    ```
 
 ## 💎 Why use this?
-Instead of switching between email tabs, calendars, and task managers, you interact with everything in one window. You can say: *"Find the email from Alex about the contract, schedule a meeting for Thursday, and add 'buy champagne' to my shopping list"*. This project makes it happen!
+Instead of switching between email tabs, calendars, and task managers, you interact with everything in one window. You can ask the AI to perform a complex sequence of actions with a single message.
+
+### Usage Example:
+**Your prompt to the AI:**
+> *"Find a free slot on February 24th around 2:00 PM. Create a calendar event at 1:45 PM titled 'Business Lunch with Partners'. Invite alex.iv@gmail.com and maria.s@mail.ru. Set the location to 'Central Park' restaurant at 15 Pushkin St (look up the exact coordinates). And add two reminders: 2 days and 2 hours before the start."*
+
+**Result:**
+The AI will find the address, check your schedule, create the event in Google Calendar, send invitations to participants, and set up the notifications. All of this happens in seconds!
 
 ---
 Developed with ❤️ to automate your productivity.
