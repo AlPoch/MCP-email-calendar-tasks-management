@@ -65,12 +65,22 @@ Full synchronization with **Google Calendar** and **Google Tasks**:
 ## 💎 Why use this?
 Instead of switching between email tabs, calendars, and task managers, you interact with everything in one window. You can ask the AI to perform a complex sequence of actions with a single message.
 
-### Usage Example:
-**Your prompt to the AI:**
-> *"Find a free slot on February 24th around 2:00 PM. Create a calendar event at 1:45 PM titled 'Business Lunch with Partners'. Invite alex.iv@gmail.com and maria.s@mail.ru. Set the location to 'Central Park' restaurant at 15 Pushkin St (look up the exact coordinates). And add two reminders: 2 days and 2 hours before the start."*
+### Usage Examples:
+
+**1. Complex Meeting Coordination:**
+> *"Find a free slot on February 24th around 2:00 PM. Create a calendar event at 1:45 PM titled 'Business Lunch with Partners'. Invite john.smith@example.com and jane.doe@example.org. Set the location to 'Central Grill' restaurant at Broadway 123, New York (look up the exact coordinates). And add two reminders: 2 days and 2 hours before the start."*
+
+**2. Email Analysis & Task Creation:**
+> *"Search the last 10 emails from all mailboxes related to 'Project Alpha'. Summarize the unresolved issues and add the most critical one to my Google Tasks with a deadline of tomorrow evening."*
+
+**3. Cross-Account Coordination:**
+> *"Find the hotel booking confirmation email in my user.private@example.de account. Forward it to my main address user.work@example.com and immediately create a calendar event for the travel dates mentioned in the email."*
+
+**4. Shopping List & Time Management:**
+> *"Add 'buy seafood' to my shopping list. Schedule 30 minutes in my calendar today at 6:30 PM for grocery shopping and set a reminder 15 minutes before I need to leave."*
 
 **Result:**
-The AI will find the address, check your schedule, create the event in Google Calendar, send invitations to participants, and set up the notifications. All of this happens in seconds!
+The AI independently performs searches, extracts necessary data, checks your schedule, creates events, sends invitations, and configures notifications across all connected services. This saves dozens of minutes of routine work every day!
 
 ---
 Developed with ❤️ to automate your productivity.
