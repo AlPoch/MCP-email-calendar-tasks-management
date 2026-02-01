@@ -20,7 +20,7 @@ export class EmailService {
             this.smtpTransports.set(acc.name, nodemailer.createTransport({
                 host: acc.smtpHost,
                 port: acc.smtpPort,
-                secure: acc.smtpPort === 465, // Use SSL for 465, STARTTLS for others
+                secure: acc.smtpSecure !== undefined ? acc.smtpSecure : acc.smtpPort === 465, // Use SSL for 465, STARTTLS for others
                 auth: {
                     user: acc.user,
                     pass: acc.password,

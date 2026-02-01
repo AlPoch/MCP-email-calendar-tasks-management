@@ -9,38 +9,48 @@ const __dirname = path.dirname(__filename);
 // Load environment variables from .env file
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
+export interface EmailAccountConfig {
+    name: string;
+    user: string;
+    password: string;
+    imapHost: string;
+    imapPort: number;
+    smtpHost: string;
+    smtpPort: number;
+    smtpSecure?: boolean;
+}
+
+function loadEmailAccounts(): EmailAccountConfig[] {
+    const accounts: EmailAccountConfig[] = [];
+    let i = 1;
+
+    while (true) {
+        const name = process.env[`EMAIL_${i}_NAME`];
+        const user = process.env[`EMAIL_${i}_USER`];
+        const password = process.env[`EMAIL_${i}_PASSWORD`];
+
+        if (!user) break; // Stop if no more users are found
+
+        accounts.push({
+            name: name || `Account_${i}`,
+            user: user,
+            password: password || '',
+            imapHost: process.env[`EMAIL_${i}_IMAP_HOST`] || 'imap.gmx.net',
+            imapPort: parseInt(process.env[`EMAIL_${i}_IMAP_PORT`] || '993'),
+            smtpHost: process.env[`EMAIL_${i}_SMTP_HOST`] || 'mail.gmx.net',
+            smtpPort: parseInt(process.env[`EMAIL_${i}_SMTP_PORT`] || '587'),
+            smtpSecure: process.env[`EMAIL_${i}_SMTP_SECURE`] === 'true'
+        });
+        i++;
+    }
+
+    return accounts;
+}
+
 export const config = {
     port: process.env.PORT || 3000,
     email: {
-        accounts: [
-            {
-                name: process.env.GMX_1_NAME || 'GMX_Haupt',
-                user: process.env.GMX_USER || '',
-                password: process.env.GMX_PASSWORD || '',
-                imapHost: 'imap.gmx.net',
-                imapPort: 993,
-                smtpHost: 'mail.gmx.net',
-                smtpPort: 587,
-            },
-            {
-                name: process.env.GMX_2_NAME || 'GMX_Privat',
-                user: process.env.GMX_2_USER || '',
-                password: process.env.GMX_2_PASSWORD || '',
-                imapHost: 'imap.gmx.net',
-                imapPort: 993,
-                smtpHost: 'mail.gmx.net',
-                smtpPort: 587,
-            },
-            {
-                name: process.env.GOOGLE_EMAIL_NAME || 'Google_Work',
-                user: process.env.GOOGLE_EMAIL_USER || '',
-                password: process.env.GOOGLE_EMAIL_PASSWORD || '',
-                imapHost: 'imap.gmail.com',
-                imapPort: 993,
-                smtpHost: 'smtp.gmail.com',
-                smtpPort: 465, // Gmail SMTP usually 465 or 587
-            }
-        ],
+        accounts: loadEmailAccounts(),
         moveTargetFolder: process.env.EMAIL_UNEMPOTANT_ORDER || 'GPTAussortiert',
     },
     google: {

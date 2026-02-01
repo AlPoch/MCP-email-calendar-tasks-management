@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MCP Email, Calendar & Tasks Management
 
-## Getting Started
+This project is a powerful **MCP (Model Context Protocol) Server** designed to fully integrate your email, calendar, and tasks with AI models (such as ChatGPT, Claude, and others).
 
-First, run the development server:
+[![Русский](https://img.shields.io/badge/lang-ru-red.svg)](README.ru.md)
+[![Deutsch](https://img.shields.io/badge/lang-de-gold.svg)](README.de.md)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🤖 AI Integration (ChatGPT & Others)
+Gives your AI assistant "hands" to manage your digital life:
+- **Smart Search**: Ask the AI to find important emails, meetings, or tasks.
+- **Automated Replies**: AI can draft or send replies in your specific style.
+- **Summaries**: Get quick summaries of long email threads or your daily agenda.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 📧 Email Management (Multi-Email Support)
+Full support for multiple mailboxes simultaneously:
+- **Any Provider**: Support for GMX, Gmail, Outlook, and others via IMAP/SMTP.
+- **Dynamic Configuration**: Add unlimited accounts through `.env` using a generic format.
+- **Secure**: Supports SSL/TLS and STARTTLS. Uses App Passwords for Google accounts.
+- **Auto-Sorting**: Move unimportant emails to a dedicated folder (e.g., `GPTAussortiert`).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 📅 Calendar & Tasks
+Full synchronization with **Google Calendar** and **Google Tasks**:
+- **Scheduling**: Create, edit, and delete events via natural language.
+- **Task Lists**: Manage your to-dos and shopping lists.
+- **Reminders**: Stay on top of your schedule with direct Google service integration.
 
-## Learn More
+## 🛠 Tech Stack
+- **Runtime**: Node.js & TypeScript
+- **Protocol**: Model Context Protocol (MCP)
+- **Email**: imap-simple & nodemailer
+- **Google API**: Google APIs Node.js Client
+- **Server**: Express with SSE & ngrok support.
 
-To learn more about Next.js, take a look at the following resources:
+## 📦 Quick Start
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/AlPoch/MCP-email-calendar-tasks-management.git
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Setup Environment**:
+   Copy `mcp-server/.env.example` to `mcp-server/.env` and fill in your credentials.
 
-## Deploy on Vercel
+3. **Install dependencies**:
+   ```bash
+   cd mcp-server
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Run the server**:
+   
+   **Development mode** (auto-reload):
+   ```bash
+   npm run dev
+   ```
+   
+   **Production mode** (build & start):
+   ```bash
+   npm run build
+   npm run start
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 💎 Why use this?
+Instead of switching between email tabs, calendars, and task managers, you interact with everything in one window. You can say: *"Find the email from Alex about the contract, schedule a meeting for Thursday, and add 'buy champagne' to my shopping list"*. This project makes it happen!
+
+---
+Developed with ❤️ to automate your productivity.
