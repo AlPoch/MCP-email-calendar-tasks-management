@@ -1,4 +1,4 @@
-# MCP Email, Calendar & Tasks Management
+# MCP Email, Calendar & Tasks Management 
 
 Этот проект представляет собой мощный **MCP-сервер (Model Context Protocol)**, предназначенный для полной интеграции вашей электронной почты, календаря и задач с ИИ-моделями (такими как ChatGPT, Claude и другие).
 
