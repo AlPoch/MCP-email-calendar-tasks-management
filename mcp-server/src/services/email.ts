@@ -59,16 +59,17 @@ export class EmailService {
         // Fetch from all accounts
         const fetchPromises = config.email.accounts.map(async (acc) => {
             try {
-                console.log(`[EmailService] Connecting to ${acc.name} (${acc.user})...`);
+                console.log(`[EmailService] Attempting connection to ${acc.name} (${acc.user})...`);
                 const connection = await this.getImapConnection(acc.name);
                 try {
-                    console.log(`[EmailService] Successfully connected to ${acc.name}. Opening INBOX...`);
+                    console.log(`[EmailService] SUCCESS: Connected to ${acc.name}. Opening INBOX...`);
                     await connection.openBox('INBOX');
 
                     let searchCriteria: any[] = ['ALL'];
                     if (search) {
                         searchCriteria = [['OR', ['SUBJECT', search], ['OR', ['FROM', search], ['BODY', search]]]];
                     }
+                    console.log(`[EmailService][${acc.name}] Using search criteria:`, JSON.stringify(searchCriteria));
 
                     const fetchOptions = {
                         bodies: ['HEADER'],
@@ -76,6 +77,7 @@ export class EmailService {
                     };
 
                     const messages = await connection.search(searchCriteria, fetchOptions);
+                    console.log(`[EmailService][${acc.name}] Search returned ${messages.length} messages.`);
 
                     messages.forEach(msg => {
                         const originalSubject = msg.parts[0].body.subject ? msg.parts[0].body.subject[0] : '(No Subject)';
@@ -91,12 +93,22 @@ export class EmailService {
                 } finally {
                     connection.end();
                 }
-            } catch (err) {
-                console.error(`[EmailService] Error listing emails for account ${acc.name}:`, err);
+            } catch (err: any) {
+                console.error(`[EmailService][ERROR] Account ${acc.name} failed:`, err.message || err);
             }
         });
 
         await Promise.all(fetchPromises);
+        console.log(`[EmailService] Total messages collected: ${allMessages.length}`);
+
+        if (allMessages.length === 0) {
+            console.error('[MCP][email_list] returning empty list', {
+                accountsCount: config.email.accounts.length,
+                search: search || 'ALL',
+                now: new Date().toISOString()
+            });
+            throw new Error('email_list returned empty – check filters/accounts (IMAP connection was success, but 0 matches)');
+        }
 
         // Sort by Date (newest first) and take limit
         return allMessages.sort((a, b) => {
