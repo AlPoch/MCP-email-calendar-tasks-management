@@ -1,3 +1,8 @@
+/**
+ * DIESES SKRIPT TESTET DIE AUFLISTUNG VON KALENDER-EREIGNISSEN FÜR DEN NÄCHSTEN MONAT.
+ * Es berechnet den Zeitraum für den kommenden Monat und ruft alle Termine ab.
+ * ERWARTETE REAKTION: Anzeige aller Ereignisse, die im nächsten Kalendermonat geplant sind.
+ */
 import { CalendarService } from '../services/calendar.js';
 
 async function main() {

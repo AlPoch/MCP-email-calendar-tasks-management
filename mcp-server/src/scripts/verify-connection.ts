@@ -1,3 +1,12 @@
+/**
+ * DIESES SKRIPT VERIFIZIERT DIE HTTP- UND SSE-VERBINDUNG ÜBER NGROK.
+ * Es prüft die Architektur des MCP-Servers:
+ * 1. Erreichbarkeit des Root-Endpunkts.
+ * 2. Abruf eines Authentifizierungs-Tokens.
+ * 3. Aufbau eines SSE-Streams (Server-Sent Events).
+ * 4. Senden einer MCP-Initialisierungsnachricht.
+ * ERWARTETE REAKTION: Bestätigung der einzelnen Kommunikationsschichten und 'ALL TESTS PASSED!'.
+ */
 import { config } from '../config.js';
 
 const NGROK_URL = 'https://unpalsied-shirlene-onward.ngrok-free.dev';

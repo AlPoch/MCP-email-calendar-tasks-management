@@ -1,3 +1,8 @@
+/**
+ * DIESES SKRIPT SUCHT NACH BESTIMMTEN E-MAILS ÜBER ALLE KONFIGURIERTEN KONTEN HINWEG.
+ * Es verwendet den EmailService, um nach einem festgelegten Suchbegriff (z.B. 'HNOmedic') zu suchen.
+ * ERWARTETE REAKTION: Auflistung aller gefundenen E-Mails mit Betreff, Absender und Account-Zuordnung.
+ */
 import { EmailService } from '../services/email.js';
 
 async function main() {

@@ -1,3 +1,9 @@
+/**
+ * DIESES SKRIPT TESTET ERWEITERTE KALENDER-FUNKTIONEN.
+ * 1. Auflistung aller verfügbaren Kalender des Benutzers.
+ * 2. Erstellung eines Ereignisses mit Teilnehmern und mehreren Erinnerungen (15 und 60 Min vorher).
+ * ERWARTETE REAKTION: Liste der Kalender sowie Bestätigung des erstellten Ereignisses inkl. Teilnehmer- und Erinnerungs-Metadaten.
+ */
 import { CalendarService } from '../services/calendar.js';
 
 async function main() {

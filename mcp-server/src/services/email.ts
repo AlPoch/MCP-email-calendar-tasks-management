@@ -82,7 +82,7 @@ export class EmailService {
                         allMessages.push({
                             id: msg.seqNo,
                             uid: msg.attributes.uid,
-                            subject: `[${acc.name}] ${originalSubject}`,
+                            subject: originalSubject,
                             from: msg.parts[0].body.from ? msg.parts[0].body.from[0] : 'Unknown',
                             date: msg.attributes.date.toString(),
                             account: acc.name

@@ -1,3 +1,8 @@
+/**
+ * DIESES SKRIPT VERIFIZIERT, OB EIN BESTIMMTES TEST-EREIGNIS IM KALENDER EXISTIERT.
+ * Es sucht nach einem Ereignis mit dem Titel 'MCP Test Event' in den nächsten 24 Stunden.
+ * ERWARTETE REAKTION: Eine Erfolgsmeldung, wenn das Ereignis gefunden wurde, oder eine Warnung, falls nicht.
+ */
 import { CalendarService } from '../services/calendar.js';
 
 async function main() {

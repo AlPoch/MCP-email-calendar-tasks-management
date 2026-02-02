@@ -1,3 +1,8 @@
+/**
+ * DIESES SKRIPT TESTET DAS ERSTELLEN EINES EINFACHEN KALENDER-EREIGNISSES.
+ * Es erstellt ein Ereignis in 2 Stunden für eine Dauer von 1 Stunde.
+ * ERWARTETE REAKTION: Eine Bestätigung mit der Event-ID und einem HTML-Link zum Google Kalender.
+ */
 import { CalendarService } from '../services/calendar.js';
 
 async function main() {

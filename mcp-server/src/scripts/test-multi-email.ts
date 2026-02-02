@@ -1,3 +1,9 @@
+/**
+ * DIESES SKRIPT TESTET DIE UNTERSTÜTZUNG MEHRERER E-MAIL-KONTEN.
+ * Es listet die letzten 15 E-Mails aus allen in der .env konfigurierten Konten auf.
+ * Zudem wird der inhaltsbezogene Abruf (getEmailContent) für die erste gefundene E-Mail getestet.
+ * ERWARTETE REAKTION: Eine kombinierte Liste von E-Mails, wobei jeder Eintrag mit dem entsprechenden Kontonamen getaggt ist.
+ */
 import { EmailService, EmailMessage } from '../services/email.js';
 import { config } from '../config.js';
 

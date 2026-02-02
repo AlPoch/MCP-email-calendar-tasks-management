@@ -1,3 +1,9 @@
+/**
+ * DIESES SKRIPT DIENT DER AUTHENTIFIZIERUNG BEI GOOGLE.
+ * Es generiert eine URL für die OAuth2-Autorisierung.
+ * NACH DER AUSFÜHRUNG: Öffnen Sie die URL im Browser, erlauben Sie den Zugriff.
+ * Das Skript gibt einen REFRESH_TOKEN aus, den Sie in die .env Datei kopieren müssen.
+ */
 import { google } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
 import http from 'http';

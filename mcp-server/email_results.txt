@@ -1,0 +1,804 @@
+
+--- ACCOUNT: pochivalov@gmx.de ---
+
+UID: 151127
+BETREFF: Termine für diesen Monat
+INHALT:
+DEINE TERMINE FÜR DIESEN MONAT:
+
+ * 15€ Gutschein bei Probonio abhollen - 2026-02-01
+ * MCP Test Event - 2026-02-01T18:26:27+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-02T16:00:00+01:00
+ * Meeting with Location Test - 2026-02-02T16:27:04+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-03T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-04T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-04T16:30:00+01:00
+ * (ofraynd@yahoo.de): Manuella Nadelwechsel - 2026-02-05T10:00:00+01:00
+ * (ofraynd@yahoo.de): Davyd Arzt Video - 2026-02-06T08:30:00+01:00
+ * (ofraynd@yahoo.de): Klinik anrufen Unterlagen - 2026-02-06T13:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-09T16:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-10T17:00:00+01:00
+ * (ofraynd@yahoo.de): Klavierkonzert Anastasia - 2026-02-10T18:30:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-11T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-11T16:30:00+01:00
+ * (ofraynd@yahoo.de): Fasching in der Schule Kostüme -
+   2026-02-13T09:00:00+01:00
+ * (Feiertage in Deutschland): Valentinstag - 2026-02-14
+ * (ofraynd@yahoo.de): Alexander Turnier - 2026-02-14T09:00:00+01:00
+ * DR. Sasha Cherkas - 2026-02-15T09:00:00+01:00
+ * DR: Olina Oma - 2026-02-15T09:00:00+01:00
+ * (ofraynd@yahoo.de): GT Oma - 2026-02-15T13:00:00+01:00
+ * (Feiertage in Deutschland): Rosenmontag - 2026-02-16
+ * (ofraynd@yahoo.de): Faschingsferien - 2026-02-16T08:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-16T16:00:00+01:00
+ * (Feiertage in Deutschland): Faschingsdienstag - 2026-02-17
+ * (ofraynd@yahoo.de): Jaroslav Geburtstag - 2026-02-17T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-17T17:00:00+01:00
+ * (Feiertage in Deutschland): Aschermittwoch - 2026-02-18
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-18T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-18T16:30:00+01:00
+ * (ofraynd@yahoo.de): Orthopäde Olching - 2026-02-20T09:45:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-23T16:00:00+01:00
+ * (ofraynd@yahoo.de): LA FFB - 2026-02-24T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-24T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-25T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-25T16:30:00+01:00
+ * Telefongespräch, ich werde angerufen - 2026-02-26T17:45:00+01:00
+ * 15€ Gutschein bei Probonio abhollen - 2026-03-01
+----------------------------------------
+
+UID: 151126
+BETREFF: Termine für diesen Monat
+INHALT:
+DEINE TERMINE FÜR DIESEN MONAT:
+
+ * 15€ Gutschein bei Probonio abhollen - 2026-02-01
+ * MCP Test Event - 2026-02-01T18:26:27+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-02T16:00:00+01:00
+ * Meeting with Location Test - 2026-02-02T16:27:04+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-03T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-04T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-04T16:30:00+01:00
+ * (ofraynd@yahoo.de): Manuella Nadelwechsel - 2026-02-05T10:00:00+01:00
+ * (ofraynd@yahoo.de): Davyd Arzt Video - 2026-02-06T08:30:00+01:00
+ * (ofraynd@yahoo.de): Klinik anrufen Unterlagen - 2026-02-06T13:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-09T16:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-10T17:00:00+01:00
+ * (ofraynd@yahoo.de): Klavierkonzert Anastasia - 2026-02-10T18:30:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-11T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-11T16:30:00+01:00
+ * (ofraynd@yahoo.de): Fasching in der Schule Kostüme -
+   2026-02-13T09:00:00+01:00
+ * (Feiertage in Deutschland): Valentinstag - 2026-02-14
+ * (ofraynd@yahoo.de): Alexander Turnier - 2026-02-14T09:00:00+01:00
+ * DR. Sasha Cherkas - 2026-02-15T09:00:00+01:00
+ * DR: Olina Oma - 2026-02-15T09:00:00+01:00
+ * (ofraynd@yahoo.de): GT Oma - 2026-02-15T13:00:00+01:00
+ * (Feiertage in Deutschland): Rosenmontag - 2026-02-16
+ * (ofraynd@yahoo.de): Faschingsferien - 2026-02-16T08:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-16T16:00:00+01:00
+ * (Feiertage in Deutschland): Faschingsdienstag - 2026-02-17
+ * (ofraynd@yahoo.de): Jaroslav Geburtstag - 2026-02-17T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-17T17:00:00+01:00
+ * (Feiertage in Deutschland): Aschermittwoch - 2026-02-18
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-18T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-18T16:30:00+01:00
+ * (ofraynd@yahoo.de): Orthopäde Olching - 2026-02-20T09:45:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-23T16:00:00+01:00
+ * (ofraynd@yahoo.de): LA FFB - 2026-02-24T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-24T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-25T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-25T16:30:00+01:00
+ * Telefongespräch, ich werde angerufen - 2026-02-26T17:45:00+01:00
+ * 15€ Gutschein bei Probonio abhollen - 2026-03-01
+----------------------------------------
+
+UID: 151125
+BETREFF: Termine für diesen Monat
+INHALT:
+DEINE TERMINE FÜR DIESEN MONAT:
+
+ * 15€ Gutschein bei Probonio abhollen - 2026-02-01
+ * MCP Test Event - 2026-02-01T18:26:27+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-02T16:00:00+01:00
+ * Meeting with Location Test - 2026-02-02T16:27:04+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-03T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-04T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-04T16:30:00+01:00
+ * (ofraynd@yahoo.de): Manuella Nadelwechsel - 2026-02-05T10:00:00+01:00
+ * (ofraynd@yahoo.de): Davyd Arzt Video - 2026-02-06T08:30:00+01:00
+ * (ofraynd@yahoo.de): Klinik anrufen Unterlagen - 2026-02-06T13:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-09T16:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-10T17:00:00+01:00
+ * (ofraynd@yahoo.de): Klavierkonzert Anastasia - 2026-02-10T18:30:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-11T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-11T16:30:00+01:00
+ * (ofraynd@yahoo.de): Fasching in der Schule Kostüme -
+   2026-02-13T09:00:00+01:00
+ * (Feiertage in Deutschland): Valentinstag - 2026-02-14
+ * (ofraynd@yahoo.de): Alexander Turnier - 2026-02-14T09:00:00+01:00
+ * DR. Sasha Cherkas - 2026-02-15T09:00:00+01:00
+ * DR: Olina Oma - 2026-02-15T09:00:00+01:00
+ * (ofraynd@yahoo.de): GT Oma - 2026-02-15T13:00:00+01:00
+ * (Feiertage in Deutschland): Rosenmontag - 2026-02-16
+ * (ofraynd@yahoo.de): Faschingsferien - 2026-02-16T08:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-16T16:00:00+01:00
+ * (Feiertage in Deutschland): Faschingsdienstag - 2026-02-17
+ * (ofraynd@yahoo.de): Jaroslav Geburtstag - 2026-02-17T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-17T17:00:00+01:00
+ * (Feiertage in Deutschland): Aschermittwoch - 2026-02-18
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-18T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-18T16:30:00+01:00
+ * (ofraynd@yahoo.de): Orthopäde Olching - 2026-02-20T09:45:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-23T16:00:00+01:00
+ * (ofraynd@yahoo.de): LA FFB - 2026-02-24T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-24T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-25T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-25T16:30:00+01:00
+ * Telefongespräch, ich werde angerufen - 2026-02-26T17:45:00+01:00
+ * 15€ Gutschein bei Probonio abhollen - 2026-03-01
+----------------------------------------
+
+UID: 151124
+BETREFF: Termine für diesen Monat
+INHALT:
+DEINE TERMINE FÜR DIESEN MONAT:
+
+ * 15€ Gutschein bei Probonio abhollen - 2026-02-01
+ * MCP Test Event - 2026-02-01T18:26:27+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-02T16:00:00+01:00
+ * Meeting with Location Test - 2026-02-02T16:27:04+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-03T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-04T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-04T16:30:00+01:00
+ * (ofraynd@yahoo.de): Manuella Nadelwechsel - 2026-02-05T10:00:00+01:00
+ * (ofraynd@yahoo.de): Davyd Arzt Video - 2026-02-06T08:30:00+01:00
+ * (ofraynd@yahoo.de): Klinik anrufen Unterlagen - 2026-02-06T13:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-09T16:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-10T17:00:00+01:00
+ * (ofraynd@yahoo.de): Klavierkonzert Anastasia - 2026-02-10T18:30:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-11T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-11T16:30:00+01:00
+ * (ofraynd@yahoo.de): Fasching in der Schule Kostüme -
+   2026-02-13T09:00:00+01:00
+ * (Feiertage in Deutschland): Valentinstag - 2026-02-14
+ * (ofraynd@yahoo.de): Alexander Turnier - 2026-02-14T09:00:00+01:00
+ * DR. Sasha Cherkas - 2026-02-15T09:00:00+01:00
+ * DR: Olina Oma - 2026-02-15T09:00:00+01:00
+ * (ofraynd@yahoo.de): GT Oma - 2026-02-15T13:00:00+01:00
+ * (Feiertage in Deutschland): Rosenmontag - 2026-02-16
+ * (ofraynd@yahoo.de): Faschingsferien - 2026-02-16T08:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-16T16:00:00+01:00
+ * (Feiertage in Deutschland): Faschingsdienstag - 2026-02-17
+ * (ofraynd@yahoo.de): Jaroslav Geburtstag - 2026-02-17T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-17T17:00:00+01:00
+ * (Feiertage in Deutschland): Aschermittwoch - 2026-02-18
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-18T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-18T16:30:00+01:00
+ * (ofraynd@yahoo.de): Orthopäde Olching - 2026-02-20T09:45:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-23T16:00:00+01:00
+ * (ofraynd@yahoo.de): LA FFB - 2026-02-24T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-24T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-25T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-25T16:30:00+01:00
+ * Telefongespräch, ich werde angerufen - 2026-02-26T17:45:00+01:00
+ * 15€ Gutschein bei Probonio abhollen - 2026-03-01
+----------------------------------------
+
+UID: 151123
+BETREFF: Termine für diesen Monat
+INHALT:
+DEINE TERMINE FÜR DIESEN MONAT:
+
+ * 15€ Gutschein bei Probonio abhollen - 2026-02-01
+ * MCP Test Event - 2026-02-01T18:26:27+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-02T16:00:00+01:00
+ * Meeting with Location Test - 2026-02-02T16:27:04+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-03T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-04T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-04T16:30:00+01:00
+ * (ofraynd@yahoo.de): Manuella Nadelwechsel - 2026-02-05T10:00:00+01:00
+ * (ofraynd@yahoo.de): Davyd Arzt Video - 2026-02-06T08:30:00+01:00
+ * (ofraynd@yahoo.de): Klinik anrufen Unterlagen - 2026-02-06T13:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-09T16:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-10T17:00:00+01:00
+ * (ofraynd@yahoo.de): Klavierkonzert Anastasia - 2026-02-10T18:30:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-11T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-11T16:30:00+01:00
+ * (ofraynd@yahoo.de): Fasching in der Schule Kostüme -
+   2026-02-13T09:00:00+01:00
+ * (Feiertage in Deutschland): Valentinstag - 2026-02-14
+ * (ofraynd@yahoo.de): Alexander Turnier - 2026-02-14T09:00:00+01:00
+ * DR. Sasha Cherkas - 2026-02-15T09:00:00+01:00
+ * DR: Olina Oma - 2026-02-15T09:00:00+01:00
+ * (ofraynd@yahoo.de): GT Oma - 2026-02-15T13:00:00+01:00
+ * (Feiertage in Deutschland): Rosenmontag - 2026-02-16
+ * (ofraynd@yahoo.de): Faschingsferien - 2026-02-16T08:00:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-16T16:00:00+01:00
+ * (Feiertage in Deutschland): Faschingsdienstag - 2026-02-17
+ * (ofraynd@yahoo.de): Jaroslav Geburtstag - 2026-02-17T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-17T17:00:00+01:00
+ * (Feiertage in Deutschland): Aschermittwoch - 2026-02-18
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-18T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-18T16:30:00+01:00
+ * (ofraynd@yahoo.de): Orthopäde Olching - 2026-02-20T09:45:00+01:00
+ * (ofraynd@yahoo.de): Gymnastik Anastasia - 2026-02-23T16:00:00+01:00
+ * (ofraynd@yahoo.de): LA FFB - 2026-02-24T09:00:00+01:00
+ * (ofraynd@yahoo.de): Fussball Alexander - 2026-02-24T17:00:00+01:00
+ * (ofraynd@yahoo.de): Schwimmen - 2026-02-25T08:00:00+01:00
+ * (ofraynd@yahoo.de): Anastasia Klavier Olching - 2026-02-25T16:30:00+01:00
+ * Telefongespräch, ich werde angerufen - 2026-02-26T17:45:00+01:00
+ * 15€ Gutschein bei Probonio abhollen - 2026-03-01
+----------------------------------------
+
+UID: 150847
+BETREFF: Alexander Poch - Ihre Vertragsunterlagen zum Junior Depot - Registrierungsnummer JD534513951A
+INHALT:
+
+
+
+
+
+   Sehr geehrter Herr Poch,
+   wir freuen uns, dass Sie das Junior Depot f�r Ihr Kind er�ffnen. Im
+   Anhang finden Sie alle Unterlagen:
+   - Vertragsbedingungen, Informationen und Erkl�rungen
+   - Ihren ausgef�llten Er�ffnungsantrag
+   Den hier angeh�ngten Er�ffnungsantrag �ffnen Sie mit dem Passwort,
+   das wir Ihnen kurzfristig an Ihre Mobilnummer per SMS senden. Sollten
+   Sie kein Passwort erhalten haben, wenden Sie sich gerne an unsere
+   Kundenbetreuung �ber unser Kontaktformular, das Sie auf
+   www.comdirect.de finden. Wir senden Ihnen den Er�ffnungsantrag dann
+   ________________                                                                                                                  
+   per Post.
+   Zur Weiterbearbeitung Ihres Antrages ben�tigen wir noch:
+   1. Identit�tsfeststellung
+   Die Identit�tsfeststellung k�nnen Sie am einfachsten online
+                                                        ______                                                                       
+   durchf�hren. Nach erfolgreicher Identit�tsfeststellung k�nnen wir
+   Ihre Depoter�ffnung fortsetzen. Halten Sie daf�r Ihren Ausweis
+   bereit.
+   Sollten Sie bereits Kundin/Kunde bei comdirect oder Bevollm�chtige/r
+   f�r ein Konto/Depot sein, w�hlen Sie bitte das Kunden-Ident per
+   TAN-Freigabe.
+   F�r Minderj�hrige ist auch eine Identit�tsfeststellung erforderlich.
+   Alle Informationen dazu lassen wir Ihnen in einer E-Mail zukommen.
+   2. Einreichung Unterlagen
+   Zus�tzlich senden wir Ihnen eine weitere E-Mail mit einem Link f�r
+   die ben�tigten Unterlagen. Die Dokumente k�nnen Sie �ber die
+   comdirect App hochladen.
+   Bitte beachten Sie, dass die vollst�ndige Einrichtung Ihres Kontos
+   bis zu 3 Bankarbeitstage in Anspruch nehmen kann. In dieser Zeit sind
+   keine �berweisungen m�glich.
+   Sie haben noch Fragen? Wir stehen Ihnen gerne unter 04106 - 70 88
+   rund um die Uhr, 7 Tage die Woche pers�nlich zur Verf�gung. Halten
+   Sie hierf�r bitte Ihre Registrierungsnummer JD534513951A bereit.
+   Viele Gr��e
+   Ihr comdirect Team
+
+
+
+
+   Henning Ratjen
+   Leiter Service
+
+   Bitte antworten Sie nicht auf diese E-Mail, sie wurde automatisch
+   erstellt.
+   Wenn Sie unsere Angebote nicht mehr erhalten m�chten, k�nnen Sie
+   bei uns der Verarbeitung Ihrer Daten f�r Werbezwecke jederzeit mit
+   Wirkung f�r die Zukunft widersprechen.
+
+
+
+
+
+
+
+
+
+   Kontakt
+
+   Impressum
+
+   Datenschutz
+
+
+   Sicherheit
+
+   Nutzungsbedingungen
+
+   AGB
+
+   �nderungen und Irrt�mer vorbehalten.
+   � comdirect - eine Marke der Commerzbank AG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------
+
+UID: 150846
+BETREFF: Olha Fraynd - Ihre Vertragsunterlagen zum Junior Depot - Registrierungsnummer JD534513951A
+INHALT:
+
+
+
+
+
+   Sehr geehrte Frau Fraynd,
+   wir freuen uns, dass Sie das Junior Depot f�r Ihr Kind er�ffnen. Im
+   Anhang finden Sie alle Unterlagen:
+   - Vertragsbedingungen, Informationen und Erkl�rungen
+   - Ihren ausgef�llten Er�ffnungsantrag
+   Den hier angeh�ngten Er�ffnungsantrag �ffnen Sie mit dem Passwort,
+   das wir Ihnen kurzfristig an Ihre Mobilnummer per SMS senden. Sollten
+   Sie kein Passwort erhalten haben, wenden Sie sich gerne an unsere
+   Kundenbetreuung �ber unser Kontaktformular, das Sie auf
+   www.comdirect.de finden. Wir senden Ihnen den Er�ffnungsantrag dann
+   ________________                                                                                                                  
+   per Post.
+   Zur Weiterbearbeitung Ihres Antrages ben�tigen wir noch:
+   1. Identit�tsfeststellung
+   Die Identit�tsfeststellung k�nnen Sie am einfachsten online
+                                                        ______                                                                       
+   durchf�hren. Nach erfolgreicher Identit�tsfeststellung k�nnen wir
+   Ihre Depoter�ffnung fortsetzen. Halten Sie daf�r Ihren Ausweis
+   bereit.
+   Sollten Sie bereits Kundin/Kunde bei comdirect oder Bevollm�chtige/r
+   f�r ein Konto/Depot sein, w�hlen Sie bitte das Kunden-Ident per
+   TAN-Freigabe.
+   F�r Minderj�hrige ist auch eine Identit�tsfeststellung erforderlich.
+   Alle Informationen dazu lassen wir Ihnen in einer E-Mail zukommen.
+   2. Einreichung Unterlagen
+   Zus�tzlich senden wir Ihnen eine weitere E-Mail mit einem Link f�r
+   die ben�tigten Unterlagen. Die Dokumente k�nnen Sie �ber die
+   comdirect App hochladen.
+   Bitte beachten Sie, dass die vollst�ndige Einrichtung Ihres Kontos
+   bis zu 3 Bankarbeitstage in Anspruch nehmen kann. In dieser Zeit sind
+   keine �berweisungen m�glich.
+   Sie haben noch Fragen? Wir stehen Ihnen gerne unter 04106 - 70 88
+   rund um die Uhr, 7 Tage die Woche pers�nlich zur Verf�gung. Halten
+   Sie hierf�r bitte Ihre Registrierungsnummer JD534513951A bereit.
+   Viele Gr��e
+   Ihr comdirect Team
+
+
+
+
+   Henning Ratjen
+   Leiter Service
+
+   Bitte antworten Sie nicht auf diese E-Mail, sie wurde automatisch
+   erstellt.
+   Wenn Sie unsere Angebote nicht mehr erhalten m�chten, k�nnen Sie
+   bei uns der Verarbeitung Ihrer Daten f�r Werbezwecke jederzeit mit
+   Wirkung f�r die Zukunft widersprechen.
+
+
+
+
+
+
+
+
+
+   Kontakt
+
+   Impressum
+
+   Datenschutz
+
+
+   Sicherheit
+
+   Nutzungsbedingungen
+
+   AGB
+
+   �nderungen und Irrt�mer vorbehalten.
+   � comdirect - eine Marke der Commerzbank AG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------
+
+UID: 150845
+BETREFF: Informationen zur Identitätsfeststellung und wichtige Rechtsbroschüren für Ihr Kind
+INHALT:
+
+
+
+
+
+   Sehr geehrter Herr Poch,
+   mit dieser E-Mail erhalten Sie zwecks Er�ffnung eines Junior
+   Produkts und Anbahnung der Gesch�ftsbeziehung zwischen comdirect
+   und Anastasia Poch die hierf�r erforderlichen Unterlagen. Bitte
+   leiten Sie diese an Ihr Kind weiter:
+   - Vertragsbedingungen, Informationen und Erkl�rungen
+   Die erforderliche Identit�tsfeststellung f�r Ihr Kind kann auf
+   unterschiedlichen
+   Wegen erfolgen. Die Auswahl finden Sie hier
+                                          ____                                                                                       
+   Bitte beachten Sie, dass die vollst�ndige Einrichtung Ihres Kontos
+   bis zu 3 Bankarbeitstage in Anspruch nehmen kann. In dieser Zeit
+   sind keine �berweisungen m�glich.
+   Viele Gr��e
+   Ihr comdirect Team
+
+
+
+
+   Henning Ratjen
+   Leiter Service
+
+   Bitte antworten Sie nicht auf diese E-Mail, sie wurde automatisch
+   erstellt.
+
+
+
+
+
+
+
+
+
+   Kontakt
+
+   Impressum
+
+   Datenschutz
+
+   Sicherheit
+
+   Nutzungsbedingungen
+
+   AGB
+
+   �nderungen und Irrt�mer vorbehalten.
+   � comdirect - eine Marke der Commerzbank AG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------
+
+UID: 150844
+BETREFF: Informationen zur Identitätsfeststellung und wichtige Rechtsbroschüren für Ihr Kind
+INHALT:
+
+
+
+
+
+   Sehr geehrter Herr Poch,
+   mit dieser E-Mail erhalten Sie zwecks Er�ffnung eines Junior
+   Produkts und Anbahnung der Gesch�ftsbeziehung zwischen comdirect
+   und Alexander Poch die hierf�r erforderlichen Unterlagen. Bitte
+   leiten Sie diese an Ihr Kind weiter:
+   - Vertragsbedingungen, Informationen und Erkl�rungen
+   Die erforderliche Identit�tsfeststellung f�r Ihr Kind kann auf
+   unterschiedlichen
+   Wegen erfolgen. Die Auswahl finden Sie hier
+                                          ____                                                                                       
+   Bitte beachten Sie, dass die vollst�ndige Einrichtung Ihres Kontos
+   bis zu 3 Bankarbeitstage in Anspruch nehmen kann. In dieser Zeit
+   sind keine �berweisungen m�glich.
+   Viele Gr��e
+   Ihr comdirect Team
+
+
+
+
+   Henning Ratjen
+   Leiter Service
+
+   Bitte antworten Sie nicht auf diese E-Mail, sie wurde automatisch
+   erstellt.
+
+
+
+
+
+
+
+
+
+   Kontakt
+
+   Impressum
+
+   Datenschutz
+
+   Sicherheit
+
+   Nutzungsbedingungen
+
+   AGB
+
+   �nderungen und Irrt�mer vorbehalten.
+   � comdirect - eine Marke der Commerzbank AG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------
+
+UID: 150843
+BETREFF: Olha Fraynd - Ihre Vertragsunterlagen zum Junior Depot - Registrierungsnummer JD244124594A
+INHALT:
+
+
+
+
+
+   Sehr geehrte Frau Fraynd,
+   wir freuen uns, dass Sie das Junior Depot f�r Ihr Kind er�ffnen. Im
+   Anhang finden Sie alle Unterlagen:
+   - Vertragsbedingungen, Informationen und Erkl�rungen
+   - Ihren ausgef�llten Er�ffnungsantrag
+   Den hier angeh�ngten Er�ffnungsantrag �ffnen Sie mit dem Passwort,
+   das wir Ihnen kurzfristig an Ihre Mobilnummer per SMS senden. Sollten
+   Sie kein Passwort erhalten haben, wenden Sie sich gerne an unsere
+   Kundenbetreuung �ber unser Kontaktformular, das Sie auf
+   www.comdirect.de finden. Wir senden Ihnen den Er�ffnungsantrag dann
+   ________________                                                                                                                  
+   per Post.
+   Zur Weiterbearbeitung Ihres Antrages ben�tigen wir noch:
+   1. Identit�tsfeststellung
+   Die Identit�tsfeststellung k�nnen Sie am einfachsten online
+                                                        ______                                                                       
+   durchf�hren. Nach erfolgreicher Identit�tsfeststellung k�nnen wir
+   Ihre Depoter�ffnung fortsetzen. Halten Sie daf�r Ihren Ausweis
+   bereit.
+   Sollten Sie bereits Kundin/Kunde bei comdirect oder Bevollm�chtige/r
+   f�r ein Konto/Depot sein, w�hlen Sie bitte das Kunden-Ident per
+   TAN-Freigabe.
+   F�r Minderj�hrige ist auch eine Identit�tsfeststellung erforderlich.
+   Alle Informationen dazu lassen wir Ihnen in einer E-Mail zukommen.
+   2. Einreichung Unterlagen
+   Zus�tzlich senden wir Ihnen eine weitere E-Mail mit einem Link f�r
+   die ben�tigten Unterlagen. Die Dokumente k�nnen Sie �ber die
+   comdirect App hochladen.
+   Bitte beachten Sie, dass die vollst�ndige Einrichtung Ihres Kontos
+   bis zu 3 Bankarbeitstage in Anspruch nehmen kann. In dieser Zeit sind
+   keine �berweisungen m�glich.
+   Sie haben noch Fragen? Wir stehen Ihnen gerne unter 04106 - 70 88
+   rund um die Uhr, 7 Tage die Woche pers�nlich zur Verf�gung. Halten
+   Sie hierf�r bitte Ihre Registrierungsnummer JD244124594A bereit.
+   Viele Gr��e
+   Ihr comdirect Team
+
+
+
+
+   Henning Ratjen
+   Leiter Service
+
+   Bitte antworten Sie nicht auf diese E-Mail, sie wurde automatisch
+   erstellt.
+   Wenn Sie unsere Angebote nicht mehr erhalten m�chten, k�nnen Sie
+   bei uns der Verarbeitung Ihrer Daten f�r Werbezwecke jederzeit mit
+   Wirkung f�r die Zukunft widersprechen.
+
+
+
+
+
+
+
+
+
+   Kontakt
+
+   Impressum
+
+   Datenschutz
+
+
+   Sicherheit
+
+   Nutzungsbedingungen
+
+   AGB
+
+   �nderungen und Irrt�mer vorbehalten.
+   � comdirect - eine Marke der Commerzbank AG
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------
+
+--- ACCOUNT: alex.poch@gmx.de ---
+Keine E-Mails gefunden.
+
+--- ACCOUNT: alexander.pochivalov@googlemail.com ---
+Keine E-Mails gefunden.

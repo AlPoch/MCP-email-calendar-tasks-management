@@ -1,3 +1,8 @@
+/**
+ * DIESES SKRIPT DIENT DEM EINFACHEN TEST DES KALENDER-SERVICES.
+ * Es versucht, ein Test-Ereignis ('Test Meeting via MCP') in 2 Stunden zu planen.
+ * ERWARTETE REAKTION: Erfolgsmeldung mit dem Link zum Ereignis oder Fehlermeldung (z.B. Authentifizierung erforderlich).
+ */
 import { CalendarService } from '../services/calendar.js';
 
 async function main() {

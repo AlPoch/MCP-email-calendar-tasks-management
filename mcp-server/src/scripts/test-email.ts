@@ -1,3 +1,8 @@
+/**
+ * DIESES SKRIPT TESTET DIE BASIS-EMAIL-FUNKTION (IMAP).
+ * Es verbindet sich mit dem ersten konfigurierten Konto und ruft die allerletzte E-Mail ab.
+ * ERWARTETE REAKTION: Anzeige von UID, Datum, Absender und Betreff der neuesten E-Mail sowie eine Inhaltsvorschau.
+ */
 import { EmailService } from '../services/email.js';
 
 async function main() {

@@ -1,3 +1,10 @@
+/**
+ * DIESES SKRIPT TESTET DIE INTEGRATION VON GOOGLE TASKS UND STANDORT-BASIERTEN EREIGNISSEN.
+ * 1. Erstellung eines Kalender-Ereignisses mit einem spezifischen Standort.
+ * 2. Erstellung einer neuen Aufgabe in Google Tasks.
+ * 3. Auflistung der aktuellen Aufgaben.
+ * ERWARTETE REAKTION: Bestätigung der Event-Erstellung mit Standort, Bestätigung der Task-Erstellung und Liste der Aufgaben.
+ */
 import { CalendarService } from '../services/calendar.js';
 import { TasksService } from '../services/tasks.js';
 
