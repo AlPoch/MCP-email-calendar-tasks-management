@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { EmailService } from '../services/email.js';
 import { config } from '../config.js';
 
-export function registerEmailTools(server: McpServer, emailService: EmailService) {
+export function registerEmailTools(server: McpServer, emailService: EmailService, getSessionCount: () => number) {
     server.tool(
         'email_list',
         {
@@ -153,6 +153,24 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
                     isError: true
                 };
             }
+        }
+    );
+
+    server.tool(
+        'debug_status',
+        {},
+        async () => {
+            return {
+                content: [{
+                    type: 'text',
+                    text: JSON.stringify({
+                        status: 'running',
+                        accounts: config.email.accounts.map(a => ({ name: a.name, user: a.user })),
+                        sessions: getSessionCount(),
+                        time: new Date().toISOString()
+                    }, null, 2)
+                }]
+            };
         }
     );
 }

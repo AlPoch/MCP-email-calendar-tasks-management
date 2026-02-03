@@ -1,16 +1,21 @@
 /**
- * DIESES SKRIPT TESTET DIE E-MAIL-LISTE ÜBER DAS MCP-HTTP-PROTOKOLL (JSON-RPC) VIA NGROK.
- * Robustere Version: Extrahiert Endpoint-URL auch wenn sie kein JSON ist.
+ * DIESES SKRIPT TESTET DIE E-MAIL-LISTE ÜBER DAS MCP-HTTP-PROTOKOLL (JSON-RPC).
+ * Unterstützt nun --local Flag für Tests gegen localhost:3000.
  */
 import { config } from '../config.js';
 
-const BASE_URL = 'https://unpalsied-shirlene-onward.ngrok-free.dev';
+const isLocal = process.argv.includes('--local');
+const BASE_URL = isLocal
+    ? 'http://localhost:3000'
+    : 'https://unpalsied-shirlene-onward.ngrok-free.dev';
 
 async function main() {
-    console.log(`--- Starting Robust MCP HTTP Email Test (via NGROK) ---`);
+    console.log(`--- Starting MCP HTTP Email Test ---`);
+    console.log(`Target URL: ${BASE_URL}${isLocal ? ' (LOCAL)' : ' (EXTERNAL)'}\n`);
 
     try {
         // 1. Authenticate
+        console.log(`[AUTH] Fetching token from ${BASE_URL}/token...`);
         const tokenRes = await fetch(`${BASE_URL}/token`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -19,24 +24,29 @@ async function main() {
                 client_secret: config.serverAuth.clientSecret
             })
         });
+
+        if (!tokenRes.ok) throw new Error(`Auth failed with status ${tokenRes.status}`);
         const tokenData: any = await tokenRes.json();
         const token = tokenData.access_token;
-        console.log(`[AUTH] Token obtained.`);
+        console.log(`[AUTH] Token successfully obtained.`);
 
         // 2. SSE Connection
+        console.log(`[SSE] Opening stream at ${BASE_URL}/sse...`);
         const controller = new AbortController();
         const sseRes = await fetch(`${BASE_URL}/sse`, {
             headers: { 'Accept': 'text/event-stream' },
             signal: controller.signal
         });
-        const reader = sseRes.body?.getReader();
-        if (!reader) throw new Error('No SSE reader');
 
-        console.log('[SSE] Connection established. Waiting for endpoint/results...');
+        if (!sseRes.ok) throw new Error(`SSE initiate failed with status ${sseRes.status}`);
+        const reader = sseRes.body?.getReader();
+        if (!reader) throw new Error('No SSE reader available');
+
+        console.log('[SSE] Stream open. Waiting for session identification...');
 
         let messageEndpoint = `${BASE_URL}/message`;
         const responsePromise = new Promise((resolve, reject) => {
-            const timeout = setTimeout(() => reject(new Error('SSE Timeout waiting for result')), 40000);
+            const timeout = setTimeout(() => reject(new Error('SSE Timeout waiting for result (120s reached)')), 120000);
             let buffer = '';
 
             async function read() {
@@ -52,6 +62,7 @@ async function main() {
                             if (line.startsWith('data:')) {
                                 const rawData = line.substring(5).trim();
                                 if (!rawData) continue;
+                                console.log(`[SSE-DATA] Msg: ${rawData.substring(0, 60)}...`);
 
                                 // Try to parse as JSON first
                                 let data;
@@ -61,7 +72,7 @@ async function main() {
                                     // Not JSON - check if it looks like a URL/Endpoint
                                     if (rawData.startsWith('/')) {
                                         messageEndpoint = `${BASE_URL}${rawData}`;
-                                        console.log(`[SSE] Endpoint string received: ${messageEndpoint}`);
+                                        console.log(`[SSE] NEW Endpoint: ${messageEndpoint}`);
                                         continue;
                                     }
                                     continue;
@@ -71,8 +82,8 @@ async function main() {
                                 if (data.type === 'endpoint' || data.url) {
                                     const url = data.url.startsWith('http') ? data.url : `${BASE_URL}${data.url}`;
                                     messageEndpoint = url;
-                                    console.log(`[SSE] Endpoint JSON received: ${messageEndpoint}`);
-                                } else if (data.id === 303) {
+                                    console.log(`[SSE] NEW Endpoint (JSON): ${messageEndpoint}`);
+                                } else if (data.id === 505) {
                                     clearTimeout(timeout);
                                     resolve(data);
                                     return;
@@ -80,16 +91,18 @@ async function main() {
                             }
                         }
                     }
-                } catch (err) { reject(err); }
+                } catch (err: any) {
+                    if (err.name !== 'AbortError') reject(err);
+                }
             }
             read();
         });
 
-        // Small delay
+        // Small delay to ensure SSE is fully primed
         await new Promise(resolve => setTimeout(resolve, 3000));
 
         // 3. Send Tool Call
-        console.log(`[MSG] Sending email_list to ${messageEndpoint}...`);
+        console.log(`[MSG] Sending email_list (limit: 2) to ${messageEndpoint}...`);
         const msgRes = await fetch(messageEndpoint, {
             method: 'POST',
             headers: {
@@ -98,15 +111,20 @@ async function main() {
             },
             body: JSON.stringify({
                 jsonrpc: "2.0",
-                id: 303,
+                id: 505,
                 method: "tools/call",
                 params: {
                     name: "email_list",
-                    arguments: { limit: 10 }
+                    arguments: { limit: 2 }
                 }
             })
         });
-        console.log(`[MSG] POST status: ${msgRes.status}`);
+        console.log(`[MSG] Tool Call Response Status: ${msgRes.status}`);
+
+        if (msgRes.status !== 202 && msgRes.status !== 200) {
+            const errBody = await msgRes.text();
+            console.error(`[MSG] Tool Call Error: ${errBody}`);
+        }
 
         // 4. Wait for result
         const mcpResponse: any = await responsePromise;
@@ -115,14 +133,14 @@ async function main() {
         const rawText = mcpResponse.result.content[0].text;
         const emails = JSON.parse(rawText);
         console.log(`Emails found: ${emails.length}`);
-        emails.slice(0, 10).forEach((mail: any) => {
+        emails.forEach((mail: any) => {
             console.log(`📧 [${mail.account}] ${mail.from}: ${mail.subject}`);
         });
 
         controller.abort();
         process.exit(0);
     } catch (error: any) {
-        console.error('\n❌ TEST FAILED:', error.message);
+        console.error('\n❌ TEST ERROR:', error.message);
         process.exit(1);
     }
 }

@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { config } from './config.js';
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors());
+app.use(cookieParser()); // Enable cookie parsing
 // Selective body parsing is handled at the route level to avoid breaking SSEServerTransport
 
 // --- MCP SERVER ---
@@ -35,7 +37,7 @@ const emailService = new EmailService();
 const calendarService = new CalendarService();
 const tasksService = new TasksService();
 
-registerEmailTools(server, emailService);
+registerEmailTools(server, emailService, () => transports.size);
 registerCalendarTools(server, calendarService);
 registerTasksTools(server, tasksService);
 
@@ -66,10 +68,10 @@ app.get('/', (req, res) => {
 app.get('/sse', async (req, res) => {
     const sessionId = Math.random().toString(36).substring(2, 12);
     const baseUrl = getBaseUrl(req);
-    // Path /sse is unified for GET and POST (fallback)
-    const endpoint = `${baseUrl}/sse`;
+    // Explicitly include sessionId in the endpoint to satisfy clients that don't auto-resolve
+    const endpoint = `${baseUrl}/message?sessionId=${sessionId}`;
 
-    console.log(`[SSE] Session ${sessionId} starting at ${endpoint}`);
+    console.log(`[SSE] Session ${sessionId} starting. Message endpoint: ${endpoint}`);
 
     // Hardened headers for proxy/SSE stability
     res.setHeader('Content-Type', 'text/event-stream');
@@ -91,6 +93,9 @@ app.get('/sse', async (req, res) => {
         // Optional pulse
         res.write(':pulse\n\n');
 
+        // Some clients (like standard MCP SDK) expect the endpoint as a raw data message
+        res.write(`data: /message?sessionId=${sessionId}\n\n`);
+
     } catch (err) {
         console.error(`[SSE] Critical failure in session ${sessionId}:`, err);
         if (!res.headersSent) res.status(500).send('SSE Init Error');
@@ -104,20 +109,36 @@ app.post(['/message', '/sse', '/message/:sessionId'], async (req, res) => {
     const token = authHeader?.split(' ')[1] || req.query.token;
 
     if (token !== config.serverAuth.staticToken) {
-        console.warn(`[AUTH] 401 Critical Unauthorized for ${req.url}`);
+        console.warn(`[AUTH] 401 Unauthorized for ${req.url} (Token mismatch)`);
         return res.status(401).send('Unauthorized');
     }
 
-    // 2. Transport lookup
-    let sessionId = req.params.sessionId;
+    // 2. Transport lookup - SEARCH EVERYWHERE (Robustness++)
+    let sessionId = req.params.sessionId ||
+        req.query.sessionId as string ||
+        req.headers['x-mcp-session-id'] as string ||
+        req.headers['mcp-session-id'] as string ||
+        req.headers['x-session-id'] as string ||
+        req.cookies?.sessionId ||
+        req.cookies?.mcp_session_id;
+
+    // Fallback: If only one transport exists, use it (extreme robustness for simple tools)
+    if (!sessionId && transports.size === 1) {
+        sessionId = Array.from(transports.keys())[0];
+        console.log(`[MSG] No sessionId provided, falling back to only active session: ${sessionId}`);
+    }
+
     if (!sessionId) {
-        // Fallback for unified endpoint
-        sessionId = Array.from(transports.keys()).pop() || '';
+        console.warn(`[MSG] 400 Missing Session Identification for ${req.url}`);
+        console.log(`[MSG] Params: ${JSON.stringify(req.params)} | Query: ${JSON.stringify(req.query)}`);
+        console.log(`[MSG] Headers: ${JSON.stringify(req.headers)}`);
+        return res.status(400).send('Missing Session Identification');
     }
 
     const transport = transports.get(sessionId);
     if (!transport) {
         console.warn(`[MSG] 404 No transport for session ${sessionId} @ ${req.url}`);
+        console.log(`[MSG] Available sessions: ${Array.from(transports.keys()).join(', ') || 'None'}`);
         return res.status(404).send('Session Expired or Not Found');
     }
 
