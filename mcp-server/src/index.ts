@@ -67,17 +67,11 @@ app.get('/', (req, res) => {
 // SSE Entrance
 app.get('/sse', async (req, res) => {
     const sessionId = Math.random().toString(36).substring(2, 12);
-    const baseUrl = getBaseUrl(req);
     // Explicitly include sessionId in the endpoint to satisfy clients that don't auto-resolve
-    const endpoint = `${baseUrl}/message?sessionId=${sessionId}`;
+    // Using a simple path + query param for the transport
+    const endpoint = `/message?sessionId=${sessionId}`;
 
-    console.log(`[SSE] Session ${sessionId} starting. Message endpoint: ${endpoint}`);
-
-    // Hardened headers for proxy/SSE stability
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache, no-transform');
-    res.setHeader('Connection', 'keep-alive');
-    res.setHeader('X-Accel-Buffering', 'no');
+    console.log(`[SSE] Session ${sessionId} starting at ${endpoint}`);
 
     try {
         const transport = new SSEServerTransport(endpoint, res);
@@ -89,13 +83,6 @@ app.get('/sse', async (req, res) => {
         });
 
         await server.connect(transport);
-
-        // Optional pulse
-        res.write(':pulse\n\n');
-
-        // Some clients (like standard MCP SDK) expect the endpoint as a raw data message
-        res.write(`data: /message?sessionId=${sessionId}\n\n`);
-
     } catch (err) {
         console.error(`[SSE] Critical failure in session ${sessionId}:`, err);
         if (!res.headersSent) res.status(500).send('SSE Init Error');
