@@ -18,17 +18,7 @@ export class CalendarService {
                 refresh_token: config.google.refreshToken
             });
         }
-
-        // Note: In a real app, we would load saved tokens here.
-        // For this implementation, we assume tokens are passed via env or user interaction flows.
-        // For now, let's allow setting credentials manually if needed, or rely on ADC if configured.
-
         this.calendar = google.calendar({ version: 'v3', auth: this.auth });
-    }
-
-    // Helper to set credentials content dynamically if needed
-    setCredentials(tokens: any) {
-        this.auth.setCredentials(tokens);
     }
 
     async listCalendars(): Promise<calendar_v3.Schema$CalendarListEntry[]> {
@@ -36,8 +26,16 @@ export class CalendarService {
         return res.data.items || [];
     }
 
-    async listEvents(timeMin?: string, timeMax?: string, calendarId: string = 'primary'): Promise<calendar_v3.Schema$Event[]> {
-        // Default to next 7 days if no range provided
+    // V2 List with Pagination
+    async listEventsV2(
+        calendarId: string = 'primary',
+        timeMin?: string,
+        timeMax?: string,
+        pageToken?: string,
+        maxResults: number = 250,
+        showDeleted: boolean = false
+    ): Promise<{ events: calendar_v3.Schema$Event[], nextPageToken?: string }> {
+
         const min = timeMin || new Date().toISOString();
         const max = timeMax || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
 
@@ -47,9 +45,41 @@ export class CalendarService {
             timeMax: max,
             singleEvents: true,
             orderBy: 'startTime',
+            pageToken,
+            maxResults,
+            showDeleted
         });
 
-        return res.data.items || [];
+        return {
+            events: res.data.items || [],
+            nextPageToken: res.data.nextPageToken || undefined
+        };
+    }
+
+    // Backward compat V1
+    async listEvents(timeMin?: string, timeMax?: string, calendarId: string = 'primary'): Promise<calendar_v3.Schema$Event[]> {
+        const res = await this.listEventsV2(calendarId, timeMin, timeMax);
+        return res.events;
+    }
+
+    async getEvent(calendarId: string, eventId: string): Promise<calendar_v3.Schema$Event> {
+        const res = await this.calendar.events.get({
+            calendarId,
+            eventId
+        });
+        return res.data;
+    }
+
+    async getFreeBusy(timeMin: string, timeMax: string, calendarIds: string[]): Promise<calendar_v3.Schema$FreeBusyCalendar> {
+        const res = await this.calendar.freebusy.query({
+            requestBody: {
+                timeMin,
+                timeMax,
+                items: calendarIds.map(id => ({ id }))
+            }
+        });
+        // Returns generic map of calendarId -> busy[]
+        return res.data.calendars || {};
     }
 
     async createEvent(
@@ -60,7 +90,8 @@ export class CalendarService {
         attendees?: string[],
         reminders?: number[],
         location?: string,
-        recurrence?: string[]
+        recurrence?: string[],
+        sendUpdates: 'all' | 'none' | 'externalOnly' = 'all'
     ): Promise<calendar_v3.Schema$Event> {
         const event: calendar_v3.Schema$Event = {
             summary,
@@ -85,7 +116,7 @@ export class CalendarService {
         const res = await this.calendar.events.insert({
             calendarId: 'primary',
             requestBody: event,
-            sendUpdates: 'all', // Send invitations to attendees
+            sendUpdates: sendUpdates,
         });
 
         return res.data;
@@ -99,7 +130,8 @@ export class CalendarService {
         end?: string,
         attendees?: string[],
         reminders?: number[],
-        recurrence?: string[]
+        recurrence?: string[],
+        sendUpdates?: 'all' | 'none' | 'externalOnly'
     }, calendarId: string = 'primary'): Promise<calendar_v3.Schema$Event> {
         const patchBody: any = {};
         if (updates.summary) patchBody.summary = updates.summary;
@@ -124,17 +156,17 @@ export class CalendarService {
             calendarId,
             eventId: eventId,
             requestBody: patchBody,
-            sendUpdates: 'all',
+            sendUpdates: updates.sendUpdates || 'all',
         });
 
         return res.data;
     }
 
-    async deleteEvent(eventId: string, calendarId: string = 'primary'): Promise<void> {
+    async deleteEvent(eventId: string, calendarId: string = 'primary', sendUpdates: 'all' | 'none' | 'externalOnly' = 'all'): Promise<void> {
         await this.calendar.events.delete({
             calendarId,
             eventId: eventId,
-            sendUpdates: 'all',
+            sendUpdates: sendUpdates,
         });
     }
 
@@ -157,7 +189,6 @@ export class CalendarService {
                 console.warn(`Could not list events for calendar ${cal.summary}:`, err);
             }
         }
-
         return allEvents;
     }
 }

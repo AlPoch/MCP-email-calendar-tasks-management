@@ -28,18 +28,26 @@ const server = new McpServer({
 // Import and register all tools
 import { EmailService } from './services/email.js';
 import { registerEmailTools } from './tools/email-tools.js';
+import { registerEmailToolsV2 } from './tools/email-tools-v2.js';
 import { CalendarService } from './services/calendar.js';
 import { registerCalendarTools } from './tools/calendar-tools.js';
+import { registerCalendarToolsV2 } from './tools/calendar-tools-v2.js';
 import { TasksService } from './services/tasks.js';
 import { registerTasksTools } from './tools/tasks-tools.js';
+import { registerTasksToolsV2 } from './tools/tasks-tools-v2.js';
+import { registerCommonTools } from './tools/common-tools.js';
 
 const emailService = new EmailService();
 const calendarService = new CalendarService();
 const tasksService = new TasksService();
 
 registerEmailTools(server, emailService, () => transports.size);
+registerEmailToolsV2(server, emailService);
 registerCalendarTools(server, calendarService);
+registerCalendarToolsV2(server, calendarService);
 registerTasksTools(server, tasksService);
+registerTasksToolsV2(server, tasksService);
+registerCommonTools(server, emailService, calendarService, tasksService);
 
 // --- SESSION MANAGEMENT ---
 const transports = new Map<string, SSEServerTransport>();
