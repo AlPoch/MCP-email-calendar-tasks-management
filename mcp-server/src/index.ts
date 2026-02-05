@@ -66,23 +66,32 @@ app.get('/', (req, res) => {
 
 // SSE Entrance
 app.get('/sse', async (req, res) => {
-    const sessionId = Math.random().toString(36).substring(2, 12);
-    // Explicitly include sessionId in the endpoint to satisfy clients that don't auto-resolve
-    // Using a simple path + query param for the transport
-    const endpoint = `/message?sessionId=${sessionId}`;
+    // FIX: Allow client to specify sessionId (via Query or Headers) to support reconnection/persistence
+    const sessionId = (req.query.sessionId as string) ||
+        (req.headers['x-mcp-session-id'] as string) ||
+        (req.headers['x-session-id'] as string) ||
+        Math.random().toString(36).substring(2, 12);
+    const baseUrl = getBaseUrl(req);
+    const endpoint = `${baseUrl}/message?sessionId=${sessionId}`;
 
-    console.log(`[SSE] Session ${sessionId} starting at ${endpoint}`);
+    console.log(`[SSE] Session ${sessionId} starting. Endpoint: ${endpoint}`);
 
     try {
         const transport = new SSEServerTransport(endpoint, res);
-        transports.set(sessionId, transport);
+        // Use the transport's generated session ID if available, otherwise use our manual one
+        const finalSessionId = (transport as any).sessionId || sessionId;
+        console.log(`[SSE] Transport registered with Session ID: ${finalSessionId}`);
+        transports.set(finalSessionId, transport);
 
         res.on('close', () => {
             console.log(`[SSE] Session ${sessionId} closed`);
-            transports.delete(sessionId);
+            transports.delete(finalSessionId);
         });
 
         await server.connect(transport);
+
+        // REMOVED manual res.write to avoid duplicate 'data:' events (SDK handles it)
+        // res.write(`data: ${endpoint}\n\n`);
     } catch (err) {
         console.error(`[SSE] Critical failure in session ${sessionId}:`, err);
         if (!res.headersSent) res.status(500).send('SSE Init Error');
@@ -96,7 +105,8 @@ app.post(['/message', '/sse', '/message/:sessionId'], async (req, res) => {
     const token = authHeader?.split(' ')[1] || req.query.token;
 
     if (token !== config.serverAuth.staticToken) {
-        console.warn(`[AUTH] 401 Unauthorized for ${req.url} (Token mismatch)`);
+        console.warn(`[AUTH] 401 Unauthorized for ${req.url}`);
+        console.log(`[AUTH] Received Token: ${token ? '***' : 'None'} vs Expected: ***`);
         return res.status(401).send('Unauthorized');
     }
 
@@ -126,6 +136,9 @@ app.post(['/message', '/sse', '/message/:sessionId'], async (req, res) => {
     if (!transport) {
         console.warn(`[MSG] 404 No transport for session ${sessionId} @ ${req.url}`);
         console.log(`[MSG] Available sessions: ${Array.from(transports.keys()).join(', ') || 'None'}`);
+        // DEBUG: Log headers/query to help diagnose client mismatch issues
+        console.log(`[MSG] Debug - Headers: ${JSON.stringify(req.headers)}`);
+        console.log(`[MSG] Debug - Query: ${JSON.stringify(req.query)}`);
         return res.status(404).send('Session Expired or Not Found');
     }
 

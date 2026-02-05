@@ -29,9 +29,10 @@ if ($LASTEXITCODE -ne 0) {
 # 4. Start Server
 Write-Host "Starting Server..." -ForegroundColor Green
 $logPath = Join-Path $PSScriptRoot "server.log"
-Start-Process node -ArgumentList "build/index.js" -WorkingDirectory $PSScriptRoot -RedirectStandardOutput $logPath -RedirectStandardError $logPath
+$errPath = Join-Path $PSScriptRoot "server.err.log"
+Start-Process node -ArgumentList "build/index.js" -WorkingDirectory $PSScriptRoot -RedirectStandardOutput $logPath -RedirectStandardError $errPath
 
-Write-Host "Server started. Logs: $logPath" -ForegroundColor Cyan
+Write-Host "Server started. Logs: $logPath, Errors: $errPath" -ForegroundColor Cyan
 Write-Host "Waiting 5s for initialization..."
 Start-Sleep -Seconds 5
 Get-Content $logPath -Tail 20
