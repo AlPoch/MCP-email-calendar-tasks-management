@@ -46,6 +46,12 @@ export class EmailService {
         });
     }
 
+
+    /** Returns configured email account names in config order. */
+    public getAccountNames(): string[] {
+        return config.email.accounts.map(a => a.name);
+    }
+
     private async getImapConnection(accountName: string) {
         const acc = config.email.accounts.find(a => a.name === accountName);
         if (!acc) throw new Error(`Account ${accountName} not found`);
@@ -129,7 +135,7 @@ export class EmailService {
 
             let searchCriteria: any[] = [];
             if (opts.unreadOnly) searchCriteria.push('UNSEEN');
-            if (opts.since) searchCriteria.push(['SINCE', new Date(opts.since).toISOString()]);
+            if (opts.since) searchCriteria.push(['SINCE', new Date(opts.since)]);
 
             if (opts.search) {
                 const term = opts.search;
@@ -277,21 +283,40 @@ export class EmailService {
     async listFolders(accountName: string): Promise<string[]> {
         const connection = await this.getImapConnection(accountName);
         try {
-            if (typeof connection.getBoxes !== 'function') {
+            // imap-simple returns an object with `.imap` (node-imap). Some versions expose helpers on the wrapper,
+            // some only on the underlying node-imap connection. Support both.
+            const imapConn: any = (connection as any).imap || connection;
+            const getBoxesFn = imapConn?.getBoxes;
+
+            if (typeof getBoxesFn !== 'function') {
                 throw new Error('IMAP Connection object invalid (no getBoxes method)');
             }
-            const boxes = await connection.getBoxes();
+
+            const boxes = await new Promise<any>((resolve, reject) => {
+                try {
+                    // node-imap: getBoxes([namespace], cb). Most servers are fine with no namespace.
+                    getBoxesFn.call(imapConn, (err: any, boxList: any) => {
+                        if (err) reject(err);
+                        else resolve(boxList);
+                    });
+                } catch (e) {
+                    reject(e);
+                }
+            });
+
             const flatten = (boxList: any, prefix = ''): string[] => {
                 let result: string[] = [];
-                for (const key of Object.keys(boxList)) {
-                    const fullPath = prefix ? `${prefix}${boxList[key].delimiter}${key}` : key;
+                for (const key of Object.keys(boxList || {})) {
+                    const delimiter = boxList[key]?.delimiter || '/';
+                    const fullPath = prefix ? `${prefix}${delimiter}${key}` : key;
                     result.push(fullPath);
-                    if (boxList[key].children) {
+                    if (boxList[key]?.children) {
                         result = result.concat(flatten(boxList[key].children, fullPath));
                     }
                 }
                 return result;
             };
+
             return flatten(boxes);
         } finally {
             connection.end();

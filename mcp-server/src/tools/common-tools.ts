@@ -43,11 +43,13 @@ export function registerCommonTools(
         async () => {
             const status: any = { status: 'healthy', checks: {} };
 
-            // Email Check (List folder of first account as connectivity test)
+            // Email Check (cheap connectivity test via listing 1 email)
             try {
-                // Assuming accounts exist. If not, skip.
-                const foldersLimit = await email.listFolders(email['smtpTransports'].keys().next().value || 'default');
-                status.checks.email = { status: 'ok', folders: foldersLimit.length };
+                const account = email.getAccountNames()[0];
+                if (!account) throw new Error('No email accounts configured');
+
+                const res = await email.listEmailsV2({ account, folder: 'INBOX', limit: 1, offset: 0 });
+                status.checks.email = { status: 'ok', account, sampleEmails: res.emails.length };
             } catch (err: any) {
                 status.checks.email = { status: 'error', message: err.message };
                 status.status = 'degraded';
