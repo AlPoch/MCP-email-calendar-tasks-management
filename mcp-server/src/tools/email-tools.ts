@@ -140,9 +140,14 @@ export function registerEmailTools(server: McpServer, emailService: EmailService
         {
             uid: z.number().describe('UID of the email to move'),
             account: z.string().describe('The account name where the email exists'),
+            toFolder: z.string().optional().describe('Optional target folder. If omitted, moves to configured safe folder.')
         },
-        async ({ uid, account }: { uid: number, account: string }) => {
+        async ({ uid, account, toFolder }: { uid: number, account: string, toFolder?: string }) => {
             try {
+                if (toFolder) {
+                    await emailService.moveEmail(uid, account, toFolder);
+                    return { content: [{ type: 'text', text: `Email ${uid} moved to ${toFolder} in ${account}` }] };
+                }
                 await emailService.moveEmailToSafeFolder(uid, account);
                 return {
                     content: [{ type: 'text', text: `Email ${uid} moved to ${config.email.moveTargetFolder} in ${account}` }]

@@ -57,7 +57,7 @@ export function registerTasksTools(server: McpServer, tasksService: TasksService
     server.tool(
         'tasks_create',
         {
-            title: z.string().describe('Task title'),
+            title: z.string().min(1).describe('Task title'),
             notes: z.string().optional().describe('Task notes/description'),
             dueDay: z.string().optional().describe('Due day in YYYY-MM-DD format'),
             dueTime: z.string().optional().describe('Due time in HH:mm format'),
@@ -101,7 +101,7 @@ export function registerTasksTools(server: McpServer, tasksService: TasksService
         {
             taskId: z.string().describe('ID of the task to update'),
             taskListId: z.string().optional().describe('ID of the task list (default: @default)'),
-            title: z.string().optional(),
+            title: z.string().min(1).optional(),
             notes: z.string().optional(),
             status: z.enum(['needsAction', 'completed']).optional(),
             dueDay: z.string().optional().describe('Due day in YYYY-MM-DD format'),

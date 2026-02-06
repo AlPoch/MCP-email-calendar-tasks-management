@@ -200,7 +200,7 @@ export class EmailService {
                     uid: msg.attributes.uid,
                     subject: header.subject ? header.subject[0] : '(No Subject)',
                     from: header.from ? header.from[0] : 'Unknown',
-                    date: msg.attributes.date.toString(),
+                    date: (msg.attributes.date ? new Date(msg.attributes.date).toISOString() : new Date().toISOString()),
                     account: targetAccount.name,
                     flags: msg.attributes.flags,
                     folder: folder
@@ -217,14 +217,30 @@ export class EmailService {
         }
     }
 
-    async getEmailContentV2(uid: number, accountName: string, format: 'text' | 'html' = 'text'): Promise<any> {
+    async getEmailContentV2(
+        uid: number,
+        accountName: string,
+        format?: 'text' | 'html',
+        options?: {
+            folder?: string;
+            /** If true, marks the message as \Seen. Default: false (safe). */
+            markSeen?: boolean;
+            /** Optional max number of characters returned for text/html bodies. */
+            maxBodyChars?: number;
+            /** If true, performs light redaction of common tracking/token params and email addresses. */
+            redact?: boolean;
+        }
+    ): Promise<any> {
         const connection = await this.getImapConnection(accountName);
         try {
-            await connection.openBox('INBOX');
+            const folder = options?.folder || 'INBOX';
+            const markSeen = options?.markSeen === true;
+            await connection.openBox(folder);
+
             const searchCriteria = [['UID', uid]];
             const fetchOptions = {
                 bodies: [''],
-                markSeen: true,
+                markSeen,
             };
 
             const messages = await connection.search(searchCriteria, fetchOptions);
@@ -234,33 +250,72 @@ export class EmailService {
             const parsed = await simpleParser(rawSource);
 
             // Safe address parsing
-            const fromText = (parsed.from as any)?.text || (Array.isArray(parsed.from) ? parsed.from[0]?.text : (parsed.from as any)?.value?.[0]?.address) || 'Unknown';
-            const toText = (parsed.to as any)?.text || (Array.isArray(parsed.to) ? parsed.to[0]?.text : (parsed.to as any)?.value?.[0]?.address) || 'Unknown';
+            const fromText =
+                (parsed.from as any)?.text ||
+                (Array.isArray(parsed.from) ? (parsed.from as any)[0]?.text : (parsed.from as any)?.value?.[0]?.address) ||
+                'Unknown';
+            const toText =
+                (parsed.to as any)?.text ||
+                (Array.isArray(parsed.to) ? (parsed.to as any)[0]?.text : (parsed.to as any)?.value?.[0]?.address) ||
+                'Unknown';
 
-            return {
+            const redact = (input: string | undefined | null): string | undefined => {
+                if (!input) return undefined;
+                if (!options?.redact) return input;
+                let out = input;
+                // Common tracking/token query params in marketing emails
+                out = out.replace(/\b(otpToken|midToken|trkEmail|eid|loid)=([^&\s]+)/gi, '$1=[REDACTED]');
+                // Email addresses
+                out = out.replace(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi, '[REDACTED_EMAIL]');
+                return out;
+            };
+
+            const truncate = (input: string | undefined | null): string | undefined => {
+                const s = input ?? undefined;
+                if (!s) return undefined;
+                const max = options?.maxBodyChars;
+                if (!max || max <= 0) return s;
+                return s.length > max ? s.slice(0, max) + '…' : s;
+            };
+
+            const textBody = truncate(redact(parsed.text as any));
+            const htmlBody = truncate(redact(typeof parsed.html === 'string' ? parsed.html : (parsed.html as any)?.toString?.()));
+
+            // Backward compatible response: if format is provided, return only that body field
+            const res: any = {
                 subject: parsed.subject,
                 from: fromText,
                 to: toText,
-                date: parsed.date,
-                text: parsed.text,
-                html: parsed.html,
+                date: parsed.date ? new Date(parsed.date as any).toISOString() : undefined,
                 params: {
                     messageId: parsed.messageId,
                     priority: parsed.priority
                 },
-                attachments: parsed.attachments?.map(a => ({
-                    filename: a.filename,
-                    contentType: a.contentType,
-                    size: a.size,
-                    checksum: a.checksum,
-                    id: a.checksum
-                })) || []
+                attachments:
+                    parsed.attachments?.map(a => ({
+                        filename: a.filename,
+                        contentType: a.contentType,
+                        size: a.size,
+                        checksum: a.checksum,
+                        id: a.checksum
+                    })) || []
             };
 
+            if (format === 'html') {
+                res.html = htmlBody;
+            } else if (format === 'text') {
+                res.text = textBody;
+            } else {
+                res.text = textBody;
+                res.html = htmlBody;
+            }
+
+            return res;
         } finally {
             connection.end();
         }
     }
+
 
     // Reuse V1 for compat
     async getEmailContent(uid: number, accountName: string): Promise<string> {

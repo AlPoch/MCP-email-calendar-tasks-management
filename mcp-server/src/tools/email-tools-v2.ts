@@ -37,11 +37,15 @@ export function registerEmailToolsV2(server: McpServer, emailService: EmailServi
         {
             uid: z.number(),
             account: z.string(),
-            format: z.enum(['text', 'html']).optional()
+            format: z.enum(['text', 'html']).optional().describe('If provided, returns only this body format'),
+            folder: z.string().optional().describe('Mailbox folder (default: INBOX)'),
+            markSeen: z.boolean().optional().describe('If true, marks message as read (default: false)'),
+            maxBodyChars: z.number().int().positive().optional().describe('Optional max number of characters returned for body'),
+            redact: z.boolean().optional().describe('If true, lightly redacts common tracking params and email addresses')
         },
-        async ({ uid, account, format }) => {
+        async ({ uid, account, format, folder, markSeen, maxBodyChars, redact }) => {
             try {
-                const data = await emailService.getEmailContentV2(uid, account, format);
+                const data = await emailService.getEmailContentV2(uid, account, format, { folder, markSeen, maxBodyChars, redact });
                 return {
                     content: [{ type: 'text', text: JSON.stringify(data, null, 2) }]
                 };

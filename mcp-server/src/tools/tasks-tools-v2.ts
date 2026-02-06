@@ -7,7 +7,7 @@ export function registerTasksToolsV2(server: McpServer, tasksService: TasksServi
     // --- TaskLists ---
     server.tool(
         'tasks_create_list',
-        { title: z.string() },
+        { title: z.string().min(1) },
         async ({ title }) => {
             try {
                 const list = await tasksService.createTaskList(title);
@@ -18,7 +18,7 @@ export function registerTasksToolsV2(server: McpServer, tasksService: TasksServi
 
     server.tool(
         'tasks_update_list',
-        { taskListId: z.string(), title: z.string() },
+        { taskListId: z.string(), title: z.string().min(1) },
         async ({ taskListId, title }) => {
             try {
                 const list = await tasksService.updateTaskList(taskListId, title);
